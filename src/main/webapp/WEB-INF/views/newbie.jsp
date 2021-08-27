@@ -4,21 +4,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Newbie</title>
+<title>회원가입</title>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 
 </head>
 <body>
-<form action="/Hotel/join">
+<form action="/Hotel/login2" method="post">
 	성명: <input type="text" name=name><br><br>
 	ID:  <input type="text" name=userid><br><br>
 	비밀번호: <input type="password" name=pw id=pw1><br><br>
 	비밀번호 확인:  <input type="password" id=pw2><br><br>
 	모바일번호:    <input type="text" name=mobile><br><br>
-	<input type="button" value="확인" id="mit">
-	<input type="button" value=Cancle id="cancle">
-	<input type="button" value="로그인" id="login">
+	<input type="button" value="등록" id="mit">
+	<input type="button" value="취소" id="cancle">
+	
 	<input type="reset">
 </form>
 
@@ -36,11 +36,8 @@ $(document)
 		return false;
 	}
 })
-.on("click","#login",function(){
-	location.href="/Hotel/selected?path=login"
-})
 .on("click","#cancle",function(){
-	location.href="/Hotel/"
+	location.href="/Hotel/login"
 })
 </script>
 </html>
