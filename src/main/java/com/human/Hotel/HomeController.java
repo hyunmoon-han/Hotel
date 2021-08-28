@@ -41,11 +41,11 @@ public class HomeController {
 		}
 		return "room";
 	}
-	@RequestMapping(value="/join",method=RequestMethod.GET)
-	public String join(@ModelAttribute MemberList memberl,Model model) {
-		model.addAttribute("memberl",memberl);
-		return "member";
-	}
+//	@RequestMapping(value="/join",method=RequestMethod.GET)
+//	public String join(@ModelAttribute MemberList memberl,Model model) {
+//		model.addAttribute("memberl",memberl);
+//		return "member";
+//	}
 	
 	@RequestMapping("/booking")
 	public String view2(HttpServletRequest hsr) {
@@ -72,16 +72,7 @@ public class HomeController {
 	public String newbie() {
 		return "newbie";
 	}
-//	@RequestMapping(value="/selected", method=RequestMethod.GET)
-//	public String check(@RequestParam("path") String strPath,Model model) {
-//		if(strPath.equals("login")) {
-//			return "Login";
-//		}else if(strPath.equals("newbie")) {
-//			return "newbie";
-//		}else {
-//			return "redirect:/home";
-//		}
-//	}
+
 	@RequestMapping("/login")
 	public String login2() {
 		return "Login";

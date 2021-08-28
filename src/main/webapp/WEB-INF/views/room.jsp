@@ -51,7 +51,6 @@ footer {
 	
 	<header>
 	<p>안녕하세요!! ${loginid }님 환영합니다.</p>
-	<p>안녕하세요!! ${HK }님 환영합니다.</p>
 		<span id="room" style="font-size: 30px; margin-left: 20px;" >객실관리</span> 
 		<span id="check" style="font-size: 30px; margin-left: 20px;">예약관리</span>
 		<input id="back" type="button" value="로그아웃" style="float: right;margin-top: 30px;margin-right: 40px;">

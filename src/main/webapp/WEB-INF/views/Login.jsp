@@ -8,28 +8,22 @@
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-	<%
-	String q=(String)session.getAttribute("HK") ;
-		out.println(q);
-	%>
-<p>안녕하세요!! ${loginid }님 환영합니다.</p>
-<p>안녕하세요!! ${HK }님 환영합니다.</p>
+<h1>로그인 페이지</h1>
 <form action="/Hotel/check_user" method="post">
-	ID:   <input type="text" name=userid><br><br>
-	PW:	  <input type="password" name=userpw><br><br>
+	ID:&nbsp;&nbsp; <input type="text" name=userid><br><br>
+	PW:&nbsp;&nbsp;	<input type="password" name=userpw><br><br>
 	<input type="submit" value="확인">
-	<input type="button" value="취소" onclick="cancle();">
+	<input type="button" value="취소" id="cc">
 	<input type="button" value="회원가입" id="ss">
-	
 </form>
 </body>
-<script >
-function cancle(){
-	location.href="/Hotel/"
-}
+<script>
 $(document)
 .on("click","#ss",function(){
 	location.href="/Hotel/newbie"
+})
+.on("click","#cc",function(){
+	location.href="/Hotel"
 })
 </script>
 </html>

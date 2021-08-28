@@ -47,12 +47,10 @@ footer {
 <body>
 	<header>
 	<%
-	String q=(String)session.getAttribute("HK") ;
-		out.println(q);
+	String q=(String)session.getAttribute("loginid") ;
+		out.println("안녕하세요."+q+"님 환영합니다!!");
 	%>
-		<p>${HK}	
-		<p>안녕하세요!! ${loginid }님 환영합니다.</p>
-		
+	<br>
 		<span id="room" style="font-size: 30px; margin-left: 20px;">객실관리</span>
 		<span id="check" style="font-size: 30px; margin-left: 20px;">예약관리</span>
 		<input id="back" type="button" value="로그아웃"
