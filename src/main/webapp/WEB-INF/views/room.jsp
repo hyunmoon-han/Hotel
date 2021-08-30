@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,9 +100,14 @@ footer {
 							<td>Domitory</td>
 							<td>2명</td>
 						</tr>
+						
 					</tbody>
 				</table>
-
+					<select size=10 style="width:250px">
+						<c:forEach items="${list}" var="room">
+							<option> ${room.roomcode},${room.name},${room.type},${room.howmany},${room.howmuch}</option>
+						</c:forEach>
+					</select>
 
 			</div>
 			<div class="b">

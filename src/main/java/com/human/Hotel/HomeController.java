@@ -1,14 +1,17 @@
 package com.human.Hotel;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,7 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+	@Autowired
+	private SqlSession sqlSession;
 
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest hsr) {
@@ -34,11 +38,15 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/room",method=RequestMethod.GET)
-	public String room(HttpServletRequest hsr) {
+	public String room(HttpServletRequest hsr,Model model) {
 		HttpSession session=hsr.getSession();
 		if(session.getAttribute("loginid")==null) {
 			return "redirect:/login";
 		}
+		//여기서 interface호출 하고 결과를 room.jsp에 전달
+		iRoom room=sqlSession.getMapper(iRoom.class);
+		ArrayList<Roominfo> roominfo=room.getRoomList();
+		model.addAttribute("list",roominfo);
 		return "room";
 	}
 //	@RequestMapping(value="/join",method=RequestMethod.GET)
@@ -51,17 +59,21 @@ public class HomeController {
 	public String view2(HttpServletRequest hsr) {
 		HttpSession session=hsr.getSession();
 		String loginid = (String) session.getAttribute("loginid");
-		if (!loginid.equals("")) {
-			return "booking";
-		}else {
+		if (loginid.equals("") ||loginid==null) {
 			return "redirect:/login";
+			
+		}else {
+			return "booking";
+			
 		}
 	}
+	
 	@RequestMapping(value="/check_user",method=RequestMethod.POST)
 	public String view(HttpServletRequest shr,Model model) {
 		String userid=shr.getParameter("userid");
 		String passcode=shr.getParameter("userpw");
 		
+		//DB에서 유저 확인
 		HttpSession session =shr.getSession();
 		session.setAttribute("loginid", userid);
 		session.setAttribute("loginpw", passcode);
@@ -69,7 +81,11 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/newbie")
-	public String newbie() {
+	public String newbie(Model model) {
+		iRoom room=sqlSession.getMapper(iRoom.class);
+		ArrayList<Roominfo> roominfo=room.getRoomList();
+		model.addAttribute("list",roominfo);
+		System.out.println("뭐"+roominfo);
 		return "newbie";
 	}
 

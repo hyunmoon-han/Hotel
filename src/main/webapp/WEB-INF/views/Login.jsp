@@ -13,8 +13,8 @@
 	ID:&nbsp;&nbsp; <input type="text" name=userid><br><br>
 	PW:&nbsp;&nbsp;	<input type="password" name=userpw><br><br>
 	<input type="submit" value="확인">
-	<input type="button" value="취소" id="cc">
 	<input type="button" value="회원가입" id="ss">
+	<input type="button" value="취소" id="cc">
 </form>
 </body>
 <script>
@@ -23,7 +23,7 @@ $(document)
 	location.href="/Hotel/newbie"
 })
 .on("click","#cc",function(){
-	location.href="/Hotel"
+	location.href="/Hotel/"
 })
 </script>
 </html>
