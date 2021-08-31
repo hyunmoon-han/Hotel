@@ -41,6 +41,11 @@ footer {
 	grid-template-rows: 150px 490px;
 	background-color: #FFFA82;
 }
+span{
+	cursor:pointer;
+	font-size: 30px;
+	margin-left: 20px;
+}
 </style>
 </head>
 
@@ -51,8 +56,8 @@ footer {
 		out.println("안녕하세요."+q+"님 환영합니다!!");
 	%>
 	<br>
-		<span id="room" style="font-size: 30px; margin-left: 20px;">객실관리</span>
-		<span id="check" style="font-size: 30px; margin-left: 20px;">예약관리</span>
+		<span id="room" style="text-decoration: underline;text-underline-position:under; ">객실관리</span>
+		<span id="check" >예약관리</span>
 		<input id="back" type="button" value="로그아웃"
 			style="float: right; margin-top: 30px; margin-right: 40px;">
 	</header>
@@ -249,10 +254,14 @@ footer {
 <script>
 	$(document).on("click", "#back", function() {
 		location.href = "/Hotel/logout";
-	}).on("click", "#room", function() {
-		location.href = "/Hotel/booking";
-	}).on("click", "#check", function() {
+	})
+	.on("click", "#check", function() {
 		location.href = "/Hotel/room";
 	})
+	$('#check').hover(function(){
+		$(this).css("color","yellow");
+	},function(){
+		$(this).css("color","black");
+	});
 </script>
 </html>

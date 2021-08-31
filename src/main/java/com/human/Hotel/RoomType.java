@@ -1,29 +1,35 @@
 package com.human.Hotel;
 
 public class RoomType {
-	private String name;
+	private String typename;
 	private int typecode;
 	
 	public RoomType() {
 		
 	}
-	public RoomType(String name, int typecode) {
+	
+	public RoomType(String typename, int typecode) {
 		super();
-		this.name = name;
+		this.typename = typename;
 		this.typecode = typecode;
 	}
-	public String getName() {
-		return name;
+
+	public String getTypename() {
+		return typename;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setTypename(String typename) {
+		this.typename = typename;
 	}
+
 	public int getTypecode() {
 		return typecode;
 	}
+
 	public void setTypecode(int typecode) {
 		this.typecode = typecode;
 	}
+	
 	
 	
 	

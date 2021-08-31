@@ -44,6 +44,11 @@ footer {
 	margin-right: 15px;
 	margin-top: 25px;
 }
+span{
+	font-size: 30px; 
+	margin-left: 20px;
+	cursor: pointer;
+}
 </style>
 </head>
 
@@ -51,8 +56,8 @@ footer {
 	
 	<header>
 	<p>안녕하세요!! ${loginid }님 환영합니다.</p>
-		<span id="room" style="font-size: 30px; margin-left: 20px;" >객실관리</span> 
-		<span id="check" style="font-size: 30px; margin-left: 20px;">예약관리</span>
+		<span id="room"  >객실관리</span> 
+		<span id="check" style="text-decoration: underline;text-underline-position:under;">예약관리</span>
 		<input id="back" type="button" value="로그아웃" style="float: right;margin-top: 30px;margin-right: 40px;">
 	</header>
 	<section>
@@ -72,10 +77,12 @@ footer {
 					</thead>
 					<tbody>
 					<c:forEach items="${list}" var="room">
-						<tr value="2"> 
-							<td><input type="hidden" value="${room.roomcode}"></td> 
-							<td>${room.name}</td>
-							<td>${room.typename2}</td>
+						<tr> 
+							<td><input type="hidden" value="${room.roomcode}">
+							<input type=hidden value="${room.type}">
+							</td> 
+							<td>${room.roomname}</td>
+							<td>${room.typename}</td>
 							<td>${room.howmany}</td>
 							<td>${room.howmuch}</td>
 						<tr>
@@ -85,9 +92,12 @@ footer {
 						
 					</tbody>
 				</table>
-					<select size=10 style="width:250px">
+					<select id="test" size=10 style="width:350px">
 						<c:forEach items="${list}" var="room">
-							<option> ${room.roomcode},${room.name},${room.type},${room.howmany},${room.howmuch}</option>
+							<option value="${room.roomcode},${room.roomname},${room.type},${room.typename},${room.howmany},${room.howmuch}"> 
+							${room.roomname},${room.typename},${room.howmany},${room.howmuch}
+							</option>
+							
 						</c:forEach>
 					</select>
 
@@ -102,7 +112,7 @@ footer {
 				<br> <label for="room" style="margin-left: 270px;">객실 분류:</label> 
 				<select id="roomlist" class="form-select" size="7" style="margin-left: 90px;">
 					<c:forEach items="${type}" var="type">
-						<option value="${type.typecode}">${type.name}</option>
+						<option value="${type.typecode}">${type.typename}</option>
 					</c:forEach>
 				</select> <br>
 				<br>
@@ -129,7 +139,7 @@ footer {
 			<div class="d">
 				<br>
 				<div class="col-md-5 input-group" style="margin-left: 140px;">
-					1박 요금:<input id="price" type="text" class="form-control" placeholder="3000천만원"
+					1박 요금(원):<input id="price" type="text" class="form-control" placeholder="3000천만원"
 						aria-label="First name"
 						style="margin-right: 180px; margin-left: 7px; border-radius: 20px 20px 20px 20px;">
 				</div>
@@ -144,7 +154,7 @@ footer {
 				</div>
 			</div>
 			<div class="e"></div>
-			<input type="text" value="" id="roomcode">
+			<input type="hidden" value="" id="roomcode">
 			<div class="f"></div>
 		</div>
 
@@ -162,30 +172,28 @@ footer {
 	})
 	.on("click","#back",function(){
 		location.href="/Hotel/logout";
-	}).on("click","#room",function(){
-		location.href="/Hotel/booking";
 	})
-	.on("click","#check",function(){
-		location.href="/Hotel/room";
+	.on("click","#room",function(){
+		location.href="/Hotel/booking";
 	})
 	.on("click","#tbl1 tr",function(){
 		$(this).each(function(){
 			name=$(this).find("td:eq(1)").text();
-			//roomlist=$(this).find("td:eq(2)").text();
 			num=$(this).find("td:eq(3)").text();
 			price=$(this).find("td:eq(4)").text();
 			//roomcode=$(this).find("td:eq(0)").text();
-			roomcode=$(this).find('input').val();
-			
+			//roomcode는 pk 값
+			roomcode=$(this).find('input:eq(0)').val();
+			type=$(this).find('input:eq(1)').val();
 			
 		})
 		$("#inputEmail4").val(name);
 			
-		$("#roomlist").val(roomcode).prop("selected",true);
+		$("#roomlist").val(type).prop("selected",true);
 		
 		$("#validationCustom04").val(num).prop("selected",true);
 		$("#price").val(price);
-		$("#roomcode").val(roomcode);
+		//$("#roomcode").val(roomcode);//roomcode	//디버깅용
 	})
 	.on("click","#roomlist",function(){
 		k=$("#roomlist").val();
@@ -196,6 +204,14 @@ footer {
 		$('#roomlist').val('Suite Room').prop('selected',true);
 		$("#validationCustom04").val('1').prop("selected",true);
 		$("#price").val('');
+	})
+	//select 값이동
+	.on("click","#test",function(){
+		k=$(this).val().split(",");
+		$("#inputEmail4").val(k[1]);
+		$('#roomlist').val(k[2]).prop('selected',true);
+		$("#validationCustom04").val(k[4]).prop("selected",true);
+		$("#price").val(k[5]);
 	})
 	.on("click","#btnAdd",function(){
 		$.post(
@@ -213,6 +229,12 @@ footer {
 			'text'
 		)
 	})
+	$('#room').hover(function(){
+		$(this).css("color","yellow");
+	},function(){
+		$(this).css("color","black");
+	});
+	
 </script>
 
 </html>

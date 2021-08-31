@@ -54,11 +54,7 @@ public class HomeController {
 		if(session.getAttribute("loginid")==null) {
 			return "redirect:/login";
 		}
-		//여기서 interface호출 하고 결과를 room.jsp에 전달
-//		iRoom room=sqlSession.getMapper(iRoom.class);
-//		ArrayList<Roominfo> roominfo=room.getRoomList();
-//		
-//		model.addAttribute("list",roominfo);
+		//여기서 interface호출 하고 결과를 room.jsp에 전달	
 		iRoom type=sqlSession.getMapper(iRoom.class);
 		ArrayList<RoomType>roomlist=type.RoomType();
 		model.addAttribute("type",roomlist);
