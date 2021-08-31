@@ -6,17 +6,40 @@ public class Roominfo {
 	private int type;
 	private int howmany;
 	private int howmuch;
+	private String typename2;
 	
 	public Roominfo() {
 		
 	}
+
 	public Roominfo(int roomcode, String name, int type, int howmany, int howmuch) {
 		this.roomcode = roomcode;
 		this.name = name;
 		this.type = type;
 		this.howmany = howmany;
 		this.howmuch = howmuch;
+		
 	}
+	
+	
+	public Roominfo(int roomcode, String name, int type, int howmany, int howmuch,String typename2) {
+		this.roomcode = roomcode;
+		this.name = name;
+		this.type = type;
+		this.howmany = howmany;
+		this.howmuch = howmuch;
+		this.typename2= typename2;
+	}
+	
+	
+	public String getTypename2() {
+		return typename2;
+	}
+	public void setTypename2(String typename2) {
+		this.typename2 = typename2;
+	}
+	
+	
 	public int getRoomcode() {
 		return roomcode;
 	}

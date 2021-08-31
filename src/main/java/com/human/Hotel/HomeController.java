@@ -16,9 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Handles requests for the application home page.
@@ -29,7 +31,16 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	@Autowired
 	private SqlSession sqlSession;
-
+	@ResponseBody
+	@RequestMapping(value="/room/add",method=RequestMethod.GET)
+	public int add(Roominfo rooninfo) {
+		int result=1;
+		iRoom room=sqlSession.getMapper(iRoom.class);
+		room.insertlist(rooninfo);
+		
+		return result;
+	}
+	
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest hsr) {
 		HttpSession session=hsr.getSession();
@@ -44,9 +55,20 @@ public class HomeController {
 			return "redirect:/login";
 		}
 		//여기서 interface호출 하고 결과를 room.jsp에 전달
-		iRoom room=sqlSession.getMapper(iRoom.class);
-		ArrayList<Roominfo> roominfo=room.getRoomList();
+//		iRoom room=sqlSession.getMapper(iRoom.class);
+//		ArrayList<Roominfo> roominfo=room.getRoomList();
+//		
+//		model.addAttribute("list",roominfo);
+		iRoom type=sqlSession.getMapper(iRoom.class);
+		ArrayList<RoomType>roomlist=type.RoomType();
+		model.addAttribute("type",roomlist);
+		
+		
+		//내꺼
+		iRoom room =sqlSession.getMapper(iRoom.class);
+		ArrayList<Roominfo>roominfo=room.RoomList();
 		model.addAttribute("list",roominfo);
+		
 		return "room";
 	}
 //	@RequestMapping(value="/join",method=RequestMethod.GET)
@@ -82,10 +104,7 @@ public class HomeController {
 	
 	@RequestMapping("/newbie")
 	public String newbie(Model model) {
-		iRoom room=sqlSession.getMapper(iRoom.class);
-		ArrayList<Roominfo> roominfo=room.getRoomList();
-		model.addAttribute("list",roominfo);
-		System.out.println("뭐"+roominfo);
+		
 		return "newbie";
 	}
 

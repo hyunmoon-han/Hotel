@@ -60,46 +60,28 @@ footer {
 			<div class="a" style="margin-top: 45px;">
 				<br>
 				<h1 style="text-align: center;">객실</h1>
-				<table class="table table-dark table-striped">
+				<table class="table table-dark table-striped" id="tbl1">
 					<thead>
 						<tr>
-							<th scope="col">#</th>
+							<th scope="col"></th>
 							<th scope="col">이름</th>
 							<th scope="col">Room</th>
-							<th scope="col">인원</th>
+							<th scope="col">최대 인원</th>
+							<th scope="col">가격(원)</th>
 						</tr>
 					</thead>
 					<tbody>
+					<c:forEach items="${list}" var="room">
+						<tr value="2"> 
+							<td><input type="hidden" value="${room.roomcode}"></td> 
+							<td>${room.name}</td>
+							<td>${room.typename2}</td>
+							<td>${room.howmany}</td>
+							<td>${room.howmuch}</td>
 						<tr>
-							<th scope="row">1</th>
-							<td>백두산</td>
-							<td>Suite Room</td>
-							<td>2명</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>한라산</td>
-							<td>Family Room</td>
-							<td>4명</td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td>태조산</td>
-							<td>Double Room</td>
-							<td>3명</td>
-						</tr>
-						<tr>
-							<th scope="row">4</th>
-							<td>뒷산</td>
-							<td>Single Room</td>
-							<td>2명</td>
-						</tr>
-						<tr>
-							<th scope="row">5</th>
-							<td>앞산</td>
-							<td>Domitory</td>
-							<td>2명</td>
-						</tr>
+					</c:forEach>
+						
+						
 						
 					</tbody>
 				</table>
@@ -114,27 +96,31 @@ footer {
 				<br>
 				<div class="col-md-8" style="margin-left: 158px;">
 					<label for="inputEmail4" class="form-label"
-						style="margin-left: 113px;">객실 이름:</label> <input type="text"
-						class="form-control" id="inputEmail4">
+						style="margin-left: 113px;">객실 이름:</label> 
+						<input type="text"class="form-control" id="inputEmail4">
 				</div>
-				<br> <label for="" style="margin-left: 270px;">객실 분류:</label> <select
-					class="form-select" size="7" style="margin-left: 90px;">
-					<option selected>Suite Room</option>
-					<option>Family Room</option>
-					<option>Double Room</option>
-					<option>Single Room</option>
-					<option>Domitory</option>
+				<br> <label for="room" style="margin-left: 270px;">객실 분류:</label> 
+				<select id="roomlist" class="form-select" size="7" style="margin-left: 90px;">
+					<c:forEach items="${type}" var="type">
+						<option value="${type.typecode}">${type.name}</option>
+					</c:forEach>
 				</select> <br>
 				<br>
 				<div class="col-md-3 input-group" style="margin-left: 110px;">
 					<label for="validationCustom04" class="form-label">숙박 최대
 						인원:</label> <select class="form-select" id="validationCustom04"
 						style="margin-right: 150px; margin-left: 9px;">
-						<option selected>1명</option>
-						<option>2명</option>
-						<option>3명</option>
-						<option>4명</option>
-						<option>5명</option>
+						<option value="1" selected>1명</option>
+						<option value="2">2명</option>
+						<option value="3">3명</option>
+						<option value="4">4명</option>
+						<option value="5">5명</option>
+						<option value="6">6명</option>
+						<option value="7">7명</option>
+						<option value="8">8명</option>
+						<option value="9">9명</option>
+						<option value="10">10명</option>
+						
 					</select>
 				</div>
 				<br>
@@ -143,20 +129,22 @@ footer {
 			<div class="d">
 				<br>
 				<div class="col-md-5 input-group" style="margin-left: 140px;">
-					1박 요금:<input type="text" class="form-control" placeholder="3000천만원"
+					1박 요금:<input id="price" type="text" class="form-control" placeholder="3000천만원"
 						aria-label="First name"
 						style="margin-right: 180px; margin-left: 7px; border-radius: 20px 20px 20px 20px;">
 				</div>
 				<br>
 				<div style="padding-left: 190px; margin-top: 30px;">
-					<button type="button" class="btn btn-success">등록</button>
-					<button type="button" class="btn btn-primary btn-lg"
+					<button id="btnAdd" type="button" class="btn btn-success">등록</button>
+					<button id="btnDelete" type="button" class="btn btn-primary btn-lg"
 						style="color: indigo-400;">삭제</button>
-					<button type="button" class="btn btn-warning"
+					<button id="btnEnpty" type="button" class="btn btn-warning"
 						style="background-color: #FF5050;">깔끔</button>
+						
 				</div>
 			</div>
 			<div class="e"></div>
+			<input type="text" value="" id="roomcode">
 			<div class="f"></div>
 		</div>
 
@@ -169,6 +157,9 @@ footer {
 </body>
 <script>
 	$(document)
+	.ready(function(){
+		
+	})
 	.on("click","#back",function(){
 		location.href="/Hotel/logout";
 	}).on("click","#room",function(){
@@ -176,6 +167,51 @@ footer {
 	})
 	.on("click","#check",function(){
 		location.href="/Hotel/room";
+	})
+	.on("click","#tbl1 tr",function(){
+		$(this).each(function(){
+			name=$(this).find("td:eq(1)").text();
+			//roomlist=$(this).find("td:eq(2)").text();
+			num=$(this).find("td:eq(3)").text();
+			price=$(this).find("td:eq(4)").text();
+			//roomcode=$(this).find("td:eq(0)").text();
+			roomcode=$(this).find('input').val();
+			
+			
+		})
+		$("#inputEmail4").val(name);
+			
+		$("#roomlist").val(roomcode).prop("selected",true);
+		
+		$("#validationCustom04").val(num).prop("selected",true);
+		$("#price").val(price);
+		$("#roomcode").val(roomcode);
+	})
+	.on("click","#roomlist",function(){
+		k=$("#roomlist").val();
+		$("#price").val(k);
+	})
+	.on("click","#btnEnpty",function(){
+		$("#inputEmail4").val('');
+		$('#roomlist').val('Suite Room').prop('selected',true);
+		$("#validationCustom04").val('1').prop("selected",true);
+		$("#price").val('');
+	})
+	.on("click","#btnAdd",function(){
+		$.post(
+			'/Hotel/room/add',
+			{
+				roomcode:$("#roomcode").val(),
+				name:$("#inputEmail4").val(),
+				type:$("#roomlist").val(),
+				howmany:$("#validationCustom04").val(),
+				howmuch:$("#price").val()
+			},
+			function(result){
+				alert("수정 완료");
+			},
+			'text'
+		)
 	})
 </script>
 
