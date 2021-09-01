@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 /**
  * Handles requests for the application home page.
  */
@@ -31,14 +32,40 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	@Autowired
 	private SqlSession sqlSession;
+//	@ResponseBody
+//	@RequestMapping(value="/room/add",method=RequestMethod.GET)
+//	public int add(Roominfo rooninfo) {
+//		int result=1;
+//		iRoom room=sqlSession.getMapper(iRoom.class);
+//		room.insertlist(rooninfo);
+//		
+//		return result;
+//	}
+	
+	@RequestMapping(value="/RoomType2",method=RequestMethod.POST ,produces = "application/text; charset=utf8")
 	@ResponseBody
-	@RequestMapping(value="/room/add",method=RequestMethod.GET)
-	public int add(Roominfo rooninfo) {
-		int result=1;
-		iRoom room=sqlSession.getMapper(iRoom.class);
-		room.insertlist(rooninfo);
-		
-		return result;
+	public String RoomList2 (HttpServletRequest hsr) {
+//		iRoom type=sqlSession.getMapper(iRoom.class);
+//		ArrayList<RoomType>roomtype=type.RoomType();
+//		//찾아진 데이터로 JSONArray만들기
+//		JSONArray ja=new JSONArray();
+//		for(int i=0;i<roomtype.size();i++) {
+//			JSONObject jo = new JSONObject();
+//			jo.put("typecode", roomtype.get(i).getTypecode());
+//			jo.put("typename", roomtype.get(i).getTypename());
+//			ja.add(jo);
+//		}
+		iRoom type=sqlSession.getMapper(iRoom.class);
+		ArrayList<Roominfo>roominfo=type.RoomList();
+		//찾아진 데이터로 JSONArray만들기
+		JSONArray ja=new JSONArray();
+		for(int i=0;i<roominfo.size();i++) {
+			JSONObject jo = new JSONObject();
+			jo.put("roomname", roominfo.get(i).getRoomname());
+			ja.add(jo);
+		}
+		System.out.println(ja.toString());
+		return ja.toString();
 	}
 	
 	@RequestMapping("/logout")

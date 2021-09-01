@@ -11,6 +11,9 @@ rel="stylesheet"
 	integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
 	crossorigin="anonymous">
 	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+	
+
+
 <style>
 header {
 	background-color: #6DD66D;
@@ -168,7 +171,13 @@ span{
 <script>
 	$(document)
 	.ready(function(){
-		
+		$.post(
+				"http://localhost:8080/Hotel/RoomType2",
+				{},
+				function(result){
+					console.log(result);
+				},
+				"json");
 	})
 	.on("click","#back",function(){
 		location.href="/Hotel/logout";
@@ -200,35 +209,21 @@ span{
 		$("#price").val(k);
 	})
 	.on("click","#btnEnpty",function(){
-		$("#inputEmail4").val('');
-		$('#roomlist').val('Suite Room').prop('selected',true);
-		$("#validationCustom04").val('1').prop("selected",true);
-		$("#price").val('');
+		//$("#inputEmail4").val('');
+		//$('#roomlist').val('Suite Room').prop('selected',true);
+		//$("#validationCustom04").val('1').prop("selected",true);
+		//$("#price").val('');
+		$("#inputEmail4,#roomlist,#validationCustom04,#price").val('');
 	})
 	//select 값이동
-	.on("click","#test",function(){
+	.on("click","#test option",function(){
 		k=$(this).val().split(",");
 		$("#inputEmail4").val(k[1]);
 		$('#roomlist').val(k[2]).prop('selected',true);
 		$("#validationCustom04").val(k[4]).prop("selected",true);
 		$("#price").val(k[5]);
 	})
-	.on("click","#btnAdd",function(){
-		$.post(
-			'/Hotel/room/add',
-			{
-				roomcode:$("#roomcode").val(),
-				name:$("#inputEmail4").val(),
-				type:$("#roomlist").val(),
-				howmany:$("#validationCustom04").val(),
-				howmuch:$("#price").val()
-			},
-			function(result){
-				alert("수정 완료");
-			},
-			'text'
-		)
-	})
+	
 	$('#room').hover(function(){
 		$(this).css("color","yellow");
 	},function(){
