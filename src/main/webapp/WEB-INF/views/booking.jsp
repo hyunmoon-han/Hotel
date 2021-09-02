@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>객실관리</title>
+<title>예약관리</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -56,8 +56,8 @@ span{
 		out.println("안녕하세요."+q+"님 환영합니다!!");
 	%>
 	<br>
-		<span id="room" style="text-decoration: underline;text-underline-position:under; ">객실관리</span>
-		<span id="check" >예약관리</span>
+		<span id="check" style="text-decoration: underline;text-underline-position:under; ">예약관리</span>
+		<span id="room" >객실관리</span>
 		<input id="back" type="button" value="로그아웃"
 			style="float: right; margin-top: 30px; margin-right: 40px;">
 	</header>
@@ -255,10 +255,10 @@ span{
 	$(document).on("click", "#back", function() {
 		location.href = "/Hotel/logout";
 	})
-	.on("click", "#check", function() {
+	.on("click", "#room", function() {
 		location.href = "/Hotel/room";
 	})
-	$('#check').hover(function(){
+	$('#room').hover(function(){
 		$(this).css("color","yellow");
 	},function(){
 		$(this).css("color","black");

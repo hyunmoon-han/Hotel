@@ -5,7 +5,7 @@
 <html lang="en">
 
 <head>
-<title>예약관리</title>
+<title>객실관리</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
 rel="stylesheet"
 	integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
@@ -59,8 +59,8 @@ span{
 	
 	<header>
 	<p>안녕하세요!! ${loginid }님 환영합니다.</p>
-		<span id="room"  >객실관리</span> 
-		<span id="check" style="text-decoration: underline;text-underline-position:under;">예약관리</span>
+		<span id="check">예약관리</span>
+		<span id="room" style="text-decoration: underline;text-underline-position:under;" >객실관리</span> 
 		<input id="back" type="button" value="로그아웃" style="float: right;margin-top: 30px;margin-right: 40px;">
 	</header>
 	<section>
@@ -116,7 +116,8 @@ span{
 				<select id="roomlist" class="form-select" size="7" style="margin-left: 90px;">
 					<c:forEach items="${type}" var="type">
 						<option value="${type.typecode}">${type.typename}</option>
-					</c:forEach>
+					</c:forEach>>
+					
 				</select> <br>
 				<br>
 				<div class="col-md-3 input-group" style="margin-left: 110px;">
@@ -157,7 +158,8 @@ span{
 				</div>
 			</div>
 			<div class="e"></div>
-			<input type="hidden" value="" id="roomcode">
+			<input type="text" value="" id="roomcode">
+			<input type="text" value="" id="roomtype">
 			<div class="f"></div>
 		</div>
 
@@ -171,19 +173,22 @@ span{
 <script>
 	$(document)
 	.ready(function(){
-		$.post(
+		/* $.post(
 				"http://localhost:8080/Hotel/RoomType2",
 				{},
 				function(result){
 					console.log(result);
+					$.each(result,function(ndx,value){
+						str='<option value="'+value['roomcode']+'">'+value['roomname']+','+value['typename']+','+value['howmany']+','+value['howmuch']+'</option>';
+					$("#test").append(str);
 				},
-				"json");
+				"json"); */
+	})
+	.on("click","#check",function(){
+		location.href="/Hotel/booking";
 	})
 	.on("click","#back",function(){
 		location.href="/Hotel/logout";
-	})
-	.on("click","#room",function(){
-		location.href="/Hotel/booking";
 	})
 	.on("click","#tbl1 tr",function(){
 		$(this).each(function(){
@@ -202,18 +207,18 @@ span{
 		
 		$("#validationCustom04").val(num).prop("selected",true);
 		$("#price").val(price);
-		//$("#roomcode").val(roomcode);//roomcode	//디버깅용
+		$("#roomcode").val(roomcode);//roomcode	//디버깅용
 	})
 	.on("click","#roomlist",function(){
 		k=$("#roomlist").val();
-		$("#price").val(k);
+		$("#roomtype").val(k);
 	})
 	.on("click","#btnEnpty",function(){
 		//$("#inputEmail4").val('');
 		//$('#roomlist').val('Suite Room').prop('selected',true);
 		//$("#validationCustom04").val('1').prop("selected",true);
 		//$("#price").val('');
-		$("#inputEmail4,#roomlist,#validationCustom04,#price").val('');
+		$("#inputEmail4,#roomlist,#validationCustom04,#price,#roomcode").val('');
 	})
 	//select 값이동
 	.on("click","#test option",function(){
@@ -222,9 +227,50 @@ span{
 		$('#roomlist').val(k[2]).prop('selected',true);
 		$("#validationCustom04").val(k[4]).prop("selected",true);
 		$("#price").val(k[5]);
+		$("#roomcode").val(k[0]);
+		$("#roomtype").val(k[2]);
+	})
+	.on("click","#btnDelete",function(){
+		$.post("http://localhost:8080/Hotel/deleteRoom",{roomcode:$("#roomcode").val()},
+		function(result){
+			console.log(result);
+			$("#btnEnpty").trigger('click');//입력난 비우기
+			$("#test option:selected").remove();//지우기
+		},"text");
+	})
+	.on("click","#btnAdd",function(){   
+		let roomname=$("#inputEmail4").val();
+		let roomtype=$("#roomtype").val();
+		let howmany=$("#validationCustom04").val();
+		let howmuch=$("#price").val();
+		console.log(roomname,roomtype,howmany,howmuch);
+		
+		let roomcode=$("#roomcode").val();
+		console.log('코드'+roomcode);
+		if(roomcode==''){//insert
+			
+			$.post("http://localhost:8080/Hotel/addRoom",
+					{roomname:roomname,roomtype:roomtype,howmany:howmany,howmuch:howmuch},
+					function(result){
+						 if(result=="ok"){
+							location.reload();
+						} 
+						console.log(result);
+					},"text");
+		}else{//update
+			$.post("http://localhost:8080/Hotel/updateRoom",
+					{roomcode:roomcode,roomname:roomname,roomtype:roomtype,howmany:howmany,howmuch:howmuch},
+					function(result){
+						if(result=="ok"){
+							location.reload();
+						}
+					},"text");
+		}
+		
 	})
 	
-	$('#room').hover(function(){
+	
+	$('#check').hover(function(){
 		$(this).css("color","yellow");
 	},function(){
 		$(this).css("color","black");
