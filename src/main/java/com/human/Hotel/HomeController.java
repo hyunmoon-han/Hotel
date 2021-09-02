@@ -48,8 +48,7 @@ public class HomeController {
 	
 	@ResponseBody
 	@RequestMapping(value="/addRoom",method=RequestMethod.POST,produces = "application/text; charset=utf8")
-	public String addRoom(HttpServletRequest hsr) {
-		
+	public String addRoom(HttpServletRequest hsr,Roominfo roominfo) {
 		String rname=hsr.getParameter("roomname");
 		int rtypt=Integer.parseInt(hsr.getParameter("roomtype"));
 		int howmany=Integer.parseInt(hsr.getParameter("howmany"));
@@ -58,8 +57,6 @@ public class HomeController {
 		iRoom room=sqlSession.getMapper(iRoom.class);
 		
 		room.doAddRoom(rname,rtypt,howmany,howmuch);
-		
-		
 		return "ok";
 	}
 	
@@ -94,7 +91,7 @@ public class HomeController {
 			jo.put("roomname",roominfo.get(j).getRoomname());
 			jo.put("typename", roominfo.get(j).getTypename());
 			jo.put("howmany",roominfo.get(j).getHowmany());
-			jo.put("hommuch", roominfo.get(j).getHowmuch());
+			jo.put("howmuch", roominfo.get(j).getHowmuch());
 			jo.put("type", roominfo.get(j).getType());
 			ja.add(jo);
 		}

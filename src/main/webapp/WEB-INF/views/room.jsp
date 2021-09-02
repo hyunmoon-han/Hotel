@@ -65,7 +65,7 @@ span{
 	</header>
 	<section>
 		<div class="main">
-			<div class="a" style="margin-top: 45px;">
+			<div class="a" >
 				<br>
 				<h1 style="text-align: center;">객실</h1>
 				<table class="table table-dark table-striped" id="tbl1">
@@ -96,12 +96,12 @@ span{
 					</tbody>
 				</table>
 					<select id="test" size=10 style="width:350px">
-						<c:forEach items="${list}" var="room">
+						<%-- <c:forEach items="${list}" var="room">
 							<option value="${room.roomcode},${room.roomname},${room.type},${room.typename},${room.howmany},${room.howmuch}"> 
 							${room.roomname},${room.typename},${room.howmany},${room.howmuch}
 							</option>
 							
-						</c:forEach>
+						</c:forEach> --%>
 					</select>
 
 			</div>
@@ -158,8 +158,8 @@ span{
 				</div>
 			</div>
 			<div class="e"></div>
-			<input type="text" value="" id="roomcode">
-			<input type="text" value="" id="roomtype">
+			<input type="hidden" value="" id="roomcode">
+			<input type="hidden" value="" id="roomtype">
 			<div class="f"></div>
 		</div>
 
@@ -173,16 +173,22 @@ span{
 <script>
 	$(document)
 	.ready(function(){
-		/* $.post(
+		 $.post(
 				"http://localhost:8080/Hotel/RoomType2",
 				{},
 				function(result){
 					console.log(result);
-					$.each(result,function(ndx,value){
-						str='<option value="'+value['roomcode']+'">'+value['roomname']+','+value['typename']+','+value['howmany']+','+value['howmuch']+'</option>';
-					$("#test").append(str);
+					/* <option value="${room.roomcode},${room.roomname},${room.type},${room.typename},${room.howmany},${room.howmuch}"> 
+					${room.roomname},${room.typename},${room.howmany},${room.howmuch}
+					</option> */
+					 $.each(result,function(k,v){
+						 str='<option value="'+v.roomcode+','+v.roomname+','+v.type+','+v.typename+','+v.howmany+','+v.howmuch+'">'
+						 +v.roomname+','+v.typename+','+v.howmany+','+v.howmuch+'</option>';
+						 $("#test").append(str);
+					}) 
+					
 				},
-				"json"); */
+				"json"); 
 	})
 	.on("click","#check",function(){
 		location.href="/Hotel/booking";
@@ -208,6 +214,7 @@ span{
 		$("#validationCustom04").val(num).prop("selected",true);
 		$("#price").val(price);
 		$("#roomcode").val(roomcode);//roomcode	//디버깅용
+		$("#roomtype").val(type);
 	})
 	.on("click","#roomlist",function(){
 		k=$("#roomlist").val();
@@ -231,41 +238,59 @@ span{
 		$("#roomtype").val(k[2]);
 	})
 	.on("click","#btnDelete",function(){
-		$.post("http://localhost:8080/Hotel/deleteRoom",{roomcode:$("#roomcode").val()},
-		function(result){
-			console.log(result);
-			$("#btnEnpty").trigger('click');//입력난 비우기
-			$("#test option:selected").remove();//지우기
-		},"text");
+		k=confirm('정말로 삭제 하시겠니까?')
+		if(k==true){
+			$.post("http://localhost:8080/Hotel/deleteRoom",{roomcode:$("#roomcode").val()},
+					function(result){
+						console.log(result);
+						$("#btnEnpty").trigger('click');//입력난 비우기
+						$("#test option:selected").remove();//지우기
+						$("#tbl1 tr").each(function(){
+							c=$(this).find('input:eq(0)').val();
+							if(c==$("#roomcode").val()){
+								$(this).remove();
+							}
+						})
+						location.reload();
+						
+					},"text");
+		}else{
+			return false;
+		}
+		
 	})
 	.on("click","#btnAdd",function(){   
 		let roomname=$("#inputEmail4").val();
 		let roomtype=$("#roomtype").val();
 		let howmany=$("#validationCustom04").val();
 		let howmuch=$("#price").val();
-		console.log(roomname,roomtype,howmany,howmuch);
-		
+		//console.log(roomname,roomtype,howmany,howmuch);
 		let roomcode=$("#roomcode").val();
-		console.log('코드'+roomcode);
-		if(roomcode==''){//insert
-			
-			$.post("http://localhost:8080/Hotel/addRoom",
-					{roomname:roomname,roomtype:roomtype,howmany:howmany,howmuch:howmuch},
-					function(result){
-						 if(result=="ok"){
-							location.reload();
-						} 
-						console.log(result);
-					},"text");
-		}else{//update
-			$.post("http://localhost:8080/Hotel/updateRoom",
-					{roomcode:roomcode,roomname:roomname,roomtype:roomtype,howmany:howmany,howmuch:howmuch},
-					function(result){
-						if(result=="ok"){
-							location.reload();
-						}
-					},"text");
+		//console.log('코드'+roomcode);
+		k=confirm("추가 및 변경하시겠니까?");
+		if(k==true){//확인코드
+			if(roomcode==''){//insert
+				$.post("http://localhost:8080/Hotel/addRoom",
+						{roomname:roomname,roomtype:roomtype,howmany:howmany,howmuch:howmuch},
+						function(result){
+							 if(result=="ok"){
+								location.reload();
+							} 
+							console.log(result);
+						},"text");
+			}else{//update
+				$.post("http://localhost:8080/Hotel/updateRoom",
+						{roomcode:roomcode,roomname:roomname,roomtype:roomtype,howmany:howmany,howmuch:howmuch},
+						function(result){
+							if(result=="ok"){
+								location.reload();
+							}
+						},"text");
+			}
+		}else{
+			return false;
 		}
+		
 		
 	})
 	

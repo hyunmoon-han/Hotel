@@ -10,20 +10,20 @@
 	<select id="RoomList" resultType="com.human.Hotel.Roominfo">
 		select a.roomcode,a.name roomname,a.type,b.name typename,a.howmany,a.howmuch from room a,roomtype b where a.type=b.typecode
 	</select>
-	
+	<!-- 타입 -->
 	<select id="RoomType" resultType="com.human.Hotel.RoomType">
 		select typecode, name typename from roomtype
 	</select>
-	
+	<!-- 삭제 -->
 	<delete id="doDeleteRoom">
 		delete from room where roomcode=#{param1}
 	</delete>
-	
+	<!-- 추가 -->
 	<insert id="doAddRoom">
-		   <!-- insert into room(roomcode,name,type,howmany,howmuch) values(seq_room.nextval,#{rname},#{rtype},#{howmany},#{howmuch})-->
+		    <!--insert into room(roomcode,name,type,howmany,howmuch) values(seq_room.nextval,#{roomname},#{type},#{howmany},#{howmuch})-->
 		  insert into room values(seq_room.nextval,#{param1},#{param2},#{param3},#{param4})
 	</insert>
-	
+	<!-- 업데이트 -->
 	<update id="doUpdateRoom">
 		update room set name=#{param1},type=#{param2},howmany=#{param3},howmuch=#{param4}
 		where roomcode=#{param5}

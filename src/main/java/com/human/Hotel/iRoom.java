@@ -13,6 +13,7 @@ public interface iRoom {
 	
 	public void doAddRoom(String rname,int rtypt,int howmany,int howmuch);
 	
+
 	public void doUpdateRoom(String rname,int rtypt,int howmany,int howmuch,int roomcode);
 	
 	
