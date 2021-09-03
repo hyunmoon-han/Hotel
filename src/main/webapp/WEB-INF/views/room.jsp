@@ -68,7 +68,7 @@ span{
 			<div class="a" >
 				<br>
 				<h1 style="text-align: center;">객실</h1>
-				<table class="table table-dark table-striped" id="tbl1">
+	<%-- 			<table class="table table-dark table-striped" id="tbl1" style="cursor: pointer;">
 					<thead>
 						<tr>
 							<th scope="col"></th>
@@ -94,8 +94,8 @@ span{
 						
 						
 					</tbody>
-				</table>
-					<select id="test" size=10 style="width:350px">
+				</table> --%>
+					<select id="test" size=20 style="width:350px">
 						<%-- <c:forEach items="${list}" var="room">
 							<option value="${room.roomcode},${room.roomname},${room.type},${room.typename},${room.howmany},${room.howmuch}"> 
 							${room.roomname},${room.typename},${room.howmany},${room.howmuch}
@@ -173,7 +173,7 @@ span{
 <script>
 	$(document)
 	.ready(function(){
-		 $.post(
+		  $.post(
 				"http://localhost:8080/Hotel/RoomType2",
 				{},
 				function(result){
@@ -188,7 +188,7 @@ span{
 					}) 
 					
 				},
-				"json"); 
+				"json");  
 	})
 	.on("click","#check",function(){
 		location.href="/Hotel/booking";
@@ -225,7 +225,7 @@ span{
 		//$('#roomlist').val('Suite Room').prop('selected',true);
 		//$("#validationCustom04").val('1').prop("selected",true);
 		//$("#price").val('');
-		$("#inputEmail4,#roomlist,#validationCustom04,#price,#roomcode").val('');
+		$("#inputEmail4,#roomlist,#validationCustom04,#price,#roomcode,#roomtype").val('');
 	})
 	//select 값이동
 	.on("click","#test option",function(){
@@ -290,7 +290,7 @@ span{
 		}else{
 			return false;
 		}
-		
+		$("#btnEnpty").trigger('click');
 		
 	})
 	

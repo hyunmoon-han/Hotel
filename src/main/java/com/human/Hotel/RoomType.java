@@ -9,7 +9,7 @@ public class RoomType {
 	}
 	
 	public RoomType(String typename, int typecode) {
-		super();
+		
 		this.typename = typename;
 		this.typecode = typecode;
 	}

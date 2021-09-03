@@ -9,12 +9,13 @@ public interface iRoom {
 	ArrayList<Roominfo>RoomList();
 	//roomtype구하기
 	ArrayList<RoomType>RoomType();
+	//삭제
 	public void doDeleteRoom(int roomcode);
-	
+	//추가
 	public void doAddRoom(String rname,int rtypt,int howmany,int howmuch);
-	
-
+	//업데이트
 	public void doUpdateRoom(String rname,int rtypt,int howmany,int howmuch,int roomcode);
+	
 	
 	
 }

@@ -85,14 +85,17 @@ span{
 			</div>
 			<div class="b" style="margin-left: 30px; margin-right: 20px;">
 				<br>
-				<div class="col-md-8">
-					<label for="inputEmail4" class="form-label">예약자 성명:</label> <input
-						type="text" class="form-control" id="inputEmail4">
+				<div class="col-md-8 input-group">
+					객실명:&nbsp;&nbsp;<input type="text" class="form-control" id="roomname">
+				</div>
+				<br>
+				<div class="col-md-8 input-group">
+					객실종류:&nbsp;&nbsp;<input type="text" class="form-control" id="roomname">
 				</div>
 				숙박기간:
 				<div class="col-sm-1 input-group">
-					<input type="date" class="form-control">~<input type="date"
-						class="form-control">
+					<input type="date" class="form-control">~
+					<input type="date" class="form-control">
 				</div>
 				<br>
 			</div>
@@ -158,7 +161,14 @@ span{
 				<br>
 				<br>
 				<div class="col-sm-7 input-group">
-					<label for="inputPassword6" class="col-form-label">숙박
+					<label for="inputPassword6" class="col-form-label">예약
+						인원(명):</label> <input type="number" id="inputPassword6"
+						class="form-control" placeholder="2명"
+						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;">
+				</div>
+				<br>
+				<div class="col-sm-7 input-group">
+					<label for="inputPassword6" class="col-form-label">최대
 						인원(명):</label> <input type="number" id="inputPassword6"
 						class="form-control" placeholder="2명"
 						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;">
@@ -171,13 +181,13 @@ span{
 						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;">
 				</div>
 				<br>
-				<div class="col-sm-7 ">
+				<div class="col-sm-7 input-group">
 					<label for="inputPassword6" class="col-form-label">총 비용(원):</label>
 					<input type="number" id="inputPassword6" class="form-control"
 						placeholder="2000천만원"
 						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;">
 				</div>
-
+				<br>
 				<div class="col-md-8">
 					<label for="inputEmail42" class="form-label">예약자 모바일 번호:</label> <input
 						type="text" class="form-control" id="inputEmail42"

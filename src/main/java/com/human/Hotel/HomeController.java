@@ -169,17 +169,41 @@ public class HomeController {
 			
 		}
 	}
+//	@ResponseBody
+//	@RequestMapping(value="/check",method=RequestMethod.POST,produces = "application/text; charset=utf8")
+//	public String check(HttpServletRequest hsr) {
+//		String loginid=hsr.getParameter("loginid");
+//		String passcode=hsr.getParameter("passcode");
+//		System.out.println("확인:"+loginid+','+passcode);
+//		iMember room=sqlSession.getMapper(iMember.class);
+//		
+//		ArrayList<Member>a=room.doCheckUser(loginid, passcode);
+//		JSONArray ka=new JSONArray();
+//		for(int i=0;i<a.size();i++) {
+//			JSONObject ko=new JSONObject();
+//			ko.put("al", a.get(i).getLoginid());
+//			ko.put("bl", a.get(i).getName());
+//			ko.put("cl", a.get(i).getPasscode());
+//			ka.add(ko);
+//		}
+//		return ka.toString();
+//	}
 	
 	@RequestMapping(value="/check_user",method=RequestMethod.POST)
 	public String view(HttpServletRequest shr,Model model) {
 		String userid=shr.getParameter("userid");
 		String passcode=shr.getParameter("userpw");
 		
-		//DB에서 유저 확인
-		HttpSession session =shr.getSession();
-		session.setAttribute("loginid", userid);
-		session.setAttribute("loginpw", passcode);
-		return "redirect:/booking";			
+		iMember member=sqlSession.getMapper(iMember.class);
+		int n=member.doCheckUser(userid, passcode);
+		if(n>0) {
+			HttpSession session =shr.getSession();
+			session.setAttribute("loginid", userid);
+			return "redirect:/booking";			
+		}else {
+			model.addAttribute("ac","0");
+			return "Login";
+		}
 	}
 	
 	@RequestMapping("/newbie")
@@ -192,10 +216,14 @@ public class HomeController {
 	public String login2() {
 		return "Login";
 	}
-	@RequestMapping(value="/login2",method=RequestMethod.POST)
-	public String login()  {
-		
-		return "Login";
+	@RequestMapping(value="/signin",method=RequestMethod.POST)
+	public String doSignin(HttpServletRequest hsr)  {
+		String name=hsr.getParameter("name");
+		String userid=hsr.getParameter("userid");
+		String pw=hsr.getParameter("pw");
+		iMember room=sqlSession.getMapper(iMember.class);
+		room.doSignin(name, userid, pw);
+		return "redirect:/";
 	}
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home() {

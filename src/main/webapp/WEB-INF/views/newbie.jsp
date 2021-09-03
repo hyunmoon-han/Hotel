@@ -11,31 +11,40 @@
 
 </head>
 <body>
-<form action="/Hotel/login2" method="post">
+<form action="/Hotel/signin" method="post">
 	성명: <input type="text" name=name><br><br>
 	ID:  <input type="text" name=userid><br><br>
 	비밀번호: <input type="password" name=pw id=pw1><br><br>
 	비밀번호 확인:  <input type="password" id=pw2><br><br>
-	모바일번호:    <input type="text" name=mobile><br><br>
-	<input type="button" value="등록" id="mit">
-	<input type="button" value="취소" id="cancle">
-	
+	<input type="button" value="회원가입" id="mit">
 	<input type="reset">
+	<input type="button" value="홈" id="cancle">
+	
 </form>
 <select size=10 style="width:250px">
-	<c:forEach items="${list}" var="room">
-		<option> ${room.roomcode},${room.name},${room.type},${room.howmany},${room.howmuch}</option>
-	</c:forEach>
 </select>
 </body>
 <script>
 $(document)
 .on("click","#mit",function(){
+	if($("input[name=name]").val()==''){
+		alert("이름을 입력하세요");
+		return false;
+	}
+	if($("input[name=userid]").val()==''){
+		alert("아이디를 입력하세요.");
+		return false;
+	}
+	if($("input[name=pw]").val()==''){
+		alert("비밀번호를 입력하세요.");
+		return false;
+	}
 	k=$("#pw1").val();
 	s=$("#pw2").val();
 	if(k==s){
 		$("form").submit();
-		return false;
+		alert("회원가입이 완료되었습니다.");
+		return true;
 	}else{
 		alert("비밀번호가 같지 않습니다.");
 		return false;
