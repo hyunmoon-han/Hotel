@@ -15,20 +15,30 @@ rel="stylesheet"
 
 
 <style>
+body,html{
+	margin: auto; /* 화면 축소시 스크롤 방지 */
+	background: lightblue; 
+	
+	background-repeat:no-repeat; 
+    background-size:cover;
+    height: 100%;
+    width:100%;
+    background-position: center center; 
+}
 header {
 	background-color: #6DD66D;
-	height: 100px;
-	;
+	height: 10%;
+	opacity: 0.9;
 }
 
 section {
 	background-color: #FFFA82;
-	height: 650px;
+	height: 80%;
 }
 
 footer {
 	background-color: #A814E7;
-	height: 100px;
+	height: 10%;
 }
 
 .main {
@@ -58,10 +68,13 @@ span{
 <body>
 	
 	<header>
-	<p>안녕하세요!! ${loginid }님 환영합니다.</p>
+	<%
+	String q=(String)session.getAttribute("loginid") ;
+		out.println("안녕하세요."+q+"님 환영합니다!!");
+	%><br>
 		<span id="check">예약관리</span>
 		<span id="room" style="text-decoration: underline;text-underline-position:under;" >객실관리</span> 
-		<input id="back" type="button" value="로그아웃" style="float: right;margin-top: 30px;margin-right: 40px;">
+		<input id="back" type="button" value="로그아웃" style="float: right;margin-right: 40px;">
 	</header>
 	<section>
 		<div class="main">
@@ -95,7 +108,7 @@ span{
 						
 					</tbody>
 				</table> --%>
-					<select id="test" size=20 style="width:350px">
+					<select id="test" size=10 style="width:350px">
 						<%-- <c:forEach items="${list}" var="room">
 							<option value="${room.roomcode},${room.roomname},${room.type},${room.typename},${room.howmany},${room.howmuch}"> 
 							${room.roomname},${room.typename},${room.howmany},${room.howmuch}
@@ -154,7 +167,6 @@ span{
 						style="color: indigo-400;">삭제</button>
 					<button id="btnEnpty" type="button" class="btn btn-warning"
 						style="background-color: #FF5050;">깔끔</button>
-						
 				</div>
 			</div>
 			<div class="e"></div>

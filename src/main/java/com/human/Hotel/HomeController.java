@@ -33,6 +33,21 @@ public class HomeController {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	//booking 작업
+	//검색작업
+	@ResponseBody
+	@RequestMapping(value="/slt",method=RequestMethod.POST)
+	public String slt(HttpServletRequest hsr) {
+		int code2=Integer.parseInt(hsr.getParameter("code"));
+		System.out.println("코드:"+code2);
+		iRoom room=sqlSession.getMapper(iRoom.class);
+		ArrayList<Roominfo> ac=room.RoomSlt(code2);
+		return "ok";
+	}
+	
+	
+	
+	//room작업
 	@ResponseBody
 	@RequestMapping(value="/updateRoom",method=RequestMethod.POST,produces = "application/text; charset=utf8")
 	public String updateRoom(HttpServletRequest hsr) {	
@@ -158,13 +173,20 @@ public class HomeController {
 //	}
 	
 	@RequestMapping("/booking")
-	public String view2(HttpServletRequest hsr) {
+	public String view2(HttpServletRequest hsr,Model model) {
 		HttpSession session=hsr.getSession();
 		String loginid = (String) session.getAttribute("loginid");
 		if (loginid.equals("") ||loginid==null) {
 			return "redirect:/login";
 			
 		}else {
+			//roomtype 호출
+			iRoom room=sqlSession.getMapper(iRoom.class);
+			ArrayList<RoomType> type=room.RoomType();
+			model.addAttribute("roomtype",type);
+			//room list호출
+			ArrayList<Roominfo>info=room.RoomList();
+			model.addAttribute("list",info);
 			return "booking";
 			
 		}

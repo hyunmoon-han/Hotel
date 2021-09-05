@@ -7,22 +7,46 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<style>
+body,html{
+	margin: auto; /* 화면 축소시 스크롤 방지 */
+	background: lightblue; 
+	background-image: url("./resources/img/Hotel.jpg") ;
+	background-repeat:no-repeat; 
+    background-size:cover;
+    height: 100%;
+    width:100%;
+    background-position: center center; 
+}
 
-
+#content{
+	position: absolute; left: 50%; top: 50%; 
+  	transform: translate(-50%, -50%); text-align: center;
+ 	 /* 이하 꾸밈 설정 */
+  	background: white; 
+    min-width: 310px; border-radius: 15%; 
+    padding-bottom: 50px;
+    opacity: 0.7;
+}
+</style>
 </head>
 <body>
+<div id="content">
+<h1>회원가입</h1>
+<br>
+
 <form action="/Hotel/signin" method="post">
-	성명: <input type="text" name=name><br><br>
-	ID:  <input type="text" name=userid><br><br>
-	비밀번호: <input type="password" name=pw id=pw1><br><br>
-	비밀번호 확인:  <input type="password" id=pw2><br><br>
+	성명:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="text" name=name><br><br>
+	ID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="text" name=userid><br><br>
+	비밀번호:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" name=pw id=pw1><br><br>
+	비밀번호 확인:<input type="password" id=pw2><br><br>
 	<input type="button" value="회원가입" id="mit">
 	<input type="reset">
 	<input type="button" value="홈" id="cancle">
-	
 </form>
-<select size=10 style="width:250px">
-</select>
+</div>
 </body>
 <script>
 $(document)

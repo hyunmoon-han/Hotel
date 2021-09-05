@@ -28,6 +28,10 @@
 		update room set name=#{param1},type=#{param2},howmany=#{param3},howmuch=#{param4}
 		where roomcode=#{param5}
 	</update>
+	<!-- 검색 -->
+	<select id="RoomSlt" resultType="com.human.Hotel.Roominfo">
+		select * from room where type=#{param1}
+	</select>
 	
 	
 	
