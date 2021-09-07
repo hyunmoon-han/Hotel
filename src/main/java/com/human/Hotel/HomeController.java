@@ -34,15 +34,107 @@ public class HomeController {
 	private SqlSession sqlSession;
 	
 	//booking 작업
+	
+	@ResponseBody
+	@RequestMapping(value="/tim",method=RequestMethod.POST,produces =
+			  "application/text; charset=utf8")
+	public String tim(HttpServletRequest hsr) {
+		String checkin=hsr.getParameter("checkin");
+		String checkout=hsr.getParameter("checkout");
+		iEnd room=sqlSession.getMapper(iEnd.class);
+		System.out.println("씨:"+checkin+","+checkout);
+		
+		ArrayList<Roominfo>ck=room.doTim(checkin, checkout);
+		JSONArray ka=new JSONArray();
+		for(int i=0;i<ck.size();i++) {
+			JSONObject ko=new JSONObject();
+			ko.put("roomcode",ck.get(i).getRoomcode());
+			  ko.put("bookcode", ck.get(i).getBookcode());
+			  ko.put("roomname", ck.get(i).getRoomname()); 
+			  ko.put("typename",ck.get(i).getTypename()); 
+			  ko.put("person", ck.get(i).getPerson());
+			  ko.put("howmany", ck.get(i).getHowmany()); 
+			  ko.put("checkin",ck.get(i).getCheckin()); 
+			  ko.put("checkout", ck.get(i).getCheckout());
+			  ko.put("name", ck.get(i).getName()); 
+			  ko.put("mobile",ck.get(i).getMobile()); 
+			  ko.put("type", ck.get(i).getType());
+			  ko.put("totalprice", ck.get(i).getTotalprice());
+			  ko.put("howmuch", ck.get(i).getHowmuch());
+			  ka.add(ko);
+		}
+		return ka.toString();
+	}
+	  @ResponseBody
+	  @RequestMapping(value="/pick",method=RequestMethod.POST ,produces =
+	  "application/text; charset=utf8") 
+	  public String pick() { 
+		  iEnd room=sqlSession.getMapper(iEnd.class); 
+		  ArrayList<Roominfo> list=room.doList(); 
+		  JSONArray ka=new JSONArray(); 
+		  for(int i=0;i<list.size();i++) 
+		  { 
+			  JSONObject ko=new JSONObject();
+			  ko.put("roomcode",list.get(i).getRoomcode());
+			  ko.put("bookcode", list.get(i).getBookcode());
+			  ko.put("roomname", list.get(i).getRoomname()); 
+			  ko.put("typename",list.get(i).getTypename()); 
+			  ko.put("person", list.get(i).getPerson());
+			  ko.put("howmany", list.get(i).getHowmany()); 
+			  ko.put("checkin",list.get(i).getCheckin()); 
+			  ko.put("checkout", list.get(i).getCheckout());
+			  ko.put("name", list.get(i).getName()); 
+			  ko.put("mobile",list.get(i).getMobile()); 
+			  ko.put("type", list.get(i).getType());
+			  ko.put("totalprice", list.get(i).getTotalprice());
+			  ko.put("howmuch", list.get(i).getHowmuch());
+			  ka.add(ko);
+			  //System.out.println(ka);
+  		} 
+		  return ka.toString(); 
+	  }
+	 
+	//예약하기
+	@ResponseBody
+	@RequestMapping(value="/reservation",method=RequestMethod.POST
+	,produces = "application/text; charset=utf8")
+	public String reservation(HttpServletRequest hsr) {
+		int roomcode=Integer.parseInt(hsr.getParameter("roomcode"));
+		int person=Integer.parseInt(hsr.getParameter("person"));
+		String checkin=hsr.getParameter("checkin");
+		String checkout=hsr.getParameter("checkout");
+		String name=hsr.getParameter("name");
+		String mobile=hsr.getParameter("mobile");
+		int price=Integer.parseInt(hsr.getParameter("price"));
+		System.out.println("여기야:"+roomcode+','+person+','+checkin+','+checkout+','+name+','+mobile+','+price);
+		iEnd room=sqlSession.getMapper(iEnd.class);
+		room.doAdd(roomcode, person, checkin, checkout, name, mobile,price);
+		
+		//예약 list
+		return "success";
+	}
 	//검색작업
 	@ResponseBody
-	@RequestMapping(value="/slt",method=RequestMethod.POST)
+	@RequestMapping(value="/slt",method=RequestMethod.POST,produces = "application/text; charset=utf8")
 	public String slt(HttpServletRequest hsr) {
-		int code2=Integer.parseInt(hsr.getParameter("code"));
-		System.out.println("코드:"+code2);
-		iRoom room=sqlSession.getMapper(iRoom.class);
-		ArrayList<Roominfo> ac=room.RoomSlt(code2);
-		return "ok";
+		int code=Integer.parseInt(hsr.getParameter("code"));
+		String checkin=hsr.getParameter("checkin");
+		String checkout=hsr.getParameter("checkout");
+		System.out.println("코드:"+code+","+checkin+","+checkout);
+		iEnd room=sqlSession.getMapper(iEnd.class);
+		ArrayList<Roominfo>ac =room.doSlt(checkin, checkout, code);
+		JSONArray ka=new JSONArray();
+		for(int i=0;i<ac.size();i++) {
+			JSONObject ko=new JSONObject();
+			ko.put("roomname", ac.get(i).getRoomname());
+			ko.put("typename",ac.get(i).getTypename());
+			ko.put("roomcode",ac.get(i).getRoomcode());
+			ko.put("roomtype",ac.get(i).getType());
+			ko.put("howmany",ac.get(i).getHowmany());
+			ko.put("howmuch",ac.get(i).getHowmuch());
+			ka.add(ko);
+		}
+		return ka.toString();
 	}
 	
 	

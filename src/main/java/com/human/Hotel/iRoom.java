@@ -16,7 +16,5 @@ public interface iRoom {
 	//업데이트
 	public void doUpdateRoom(String rname,int rtypt,int howmany,int howmuch,int roomcode);
 	
-	//검색
-	ArrayList<Roominfo> RoomSlt(int code);
 	
 }
