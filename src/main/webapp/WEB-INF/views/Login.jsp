@@ -77,18 +77,6 @@ $(document)
 	}
 	$('form').submit();
 })
-/* 	/* let userid=$("#userid").val();
-	let userpw=$("#userpw").val();
-	$.post(
-		"http://localhost:8080/Hotel/check",
-		{loginid:userid,passcode:userpw},
-		function(result){
-			/* if(result=='success'){
-				$('form').submit();
-				alert("로그인에 성공했습니다.");
-			} 
-				console.log(result);
-		},"text"); */
 
 
 </script>

@@ -3,36 +3,39 @@
  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.human.Hotel.iEnd">
-	<!-- 추가 -->
+	<!-- 예약 추가 -->
 	<insert id="doAdd">
 		insert into booking values (SEQROOM.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7})
 	</insert>
-	<select id="doList" resultType="com.human.Hotel.Roominfo" >
-		select a.roomcode,a.type,b.bookcode,a.name roomname,c.name typename,b.person,a.howmany,b.checkin,b.checkout,b.name,b.mobile,b.totalprice,a.howmuch from room a,booking b,roomtype c where a.roomcode=b.roomcode and c.typecode=a.type
-	</select>
-	
+	<!-- 예약수정 -->
+	<update id="doUpdate">
+		update booking set person=#{param1},name=#{param2},mobile=#{param3} where bookcode=#{param4}
+	</update>
+	<!-- 예약 삭제 처리 -->
+	<delete id="doDelete">
+		delete from booking where bookcode=#{param1}
+	</delete>
+	<!-- 예약중인객실 검색-->
 	<select id="doTim" resultType="com.human.Hotel.Roominfo">
 		select a.bookcode,b.roomcode,c.name typename, b.name roomname, b.type, b.howmany,b.howmuch, a.person,a.checkin, a.checkout,a.totalprice, a.name, a.mobile
 		from booking a, room b ,roomtype c
 		<![CDATA[
 		where replace(a.checkout,'-','') > #{param1} and replace(a.checkin,'-','') < #{param2}
-		and a.roomcode=b.roomcode and b.type=c.typecode order by replace(a.checkin,'-','') 
+		and a.roomcode=b.roomcode and b.type=c.typecode and b.type=#{param3} order by replace(a.checkin,'-','') 
 		]]> 
 	</select>
-	
-	<!-- 검색 -->
+	<!-- 예약가능한 객실검색 -->
 	<select id="doSlt" resultType="com.human.Hotel.Roominfo">
-		<!-- select a.roomcode,a.name roomname,a.type,b.name typename,a.howmany,a.howmuch from room a,roomtype b where 
-		a.type=b.typecode and a.type=#{param1} order by roomcode -->
-		select b.howmuch,b.howmany,a.roomcode,b.name roomname,b.type ,c.name typename 
-		from booking a,room b,roomtype c
+		select DISTINCT b.roomcode , b.howmuch,b.howmany,b.name roomname,b.type,c.name typename 
+		from room b, booking a,roomtype c
 		<![CDATA[
-		where a.roomcode in(select roomcode from room
+		where b.roomcode in      
+		(
+		select roomcode from room
 		minus
-		select distinct roomcode from booking where replace(checkout,'-','')
-		<= #{param1} and replace(checkin,'-','') >= #{param2})
-		and a.roomcode=b.roomcode and b.type=c.typecode and b.type=#{param3}
-		]]>  
+		select distinct roomcode from booking where replace(checkout,'-','')> #{param1} and replace(checkin,'-','') < #{param2})
+		and b.type=c.typecode and b.type=#{param3}
+		]]> 
 	</select>
 	
 	

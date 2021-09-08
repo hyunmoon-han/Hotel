@@ -100,11 +100,11 @@ span{
 			<div class="b" style="margin-left: 30px; margin-right: 20px;">
 				<br>
 				<div class="col-md-8 input-group">
-					객실명:&nbsp;&nbsp;<input type="text" class="form-control" id="roomname">
+					객실명:&nbsp;&nbsp;<input type="text" class="form-control" id="roomname" readonly="readonly">
 				</div>
 				<br>
 				<div class="col-md-8 input-group">
-					객실종류:&nbsp;&nbsp;<select id="type" class="form-select form-select-mg " style="height: 40px;">
+					객실종류:&nbsp;&nbsp;<select id="type" class="form-select form-select-mg " disabled="disabled" style="height: 40px;">
 											<c:forEach items="${roomtype}" var="type">
 												<option value="${type.typecode}" value2="${type.typename}">${type.typename}</option>
 											</c:forEach>
@@ -114,7 +114,7 @@ span{
 				<div class="col-sm-7 input-group">
 					<label for="fullPersonnel" class="col-form-label">최대
 						인원(명):</label> <input type="number" id="fullPersonnel"
-						class="form-control" placeholder="2명" min="1"
+						class="form-control" placeholder="2명" min="1" readonly="readonly"
 						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;">
 				</div>
 				<br>
@@ -125,9 +125,9 @@ span{
 				<br>
 				<br> <label style="text-align: center; margin-left: 10px; font-size: 25px;"
 					for="ac">현재 예약된 객실 리스트(아래)</label>
-					<input type="text" id="wowCode">
-					<input type="text" id="wowType">
-					<input type="text" id="wowBookcode">
+					c<input type="text" id="wowCode">
+					t<input type="text" id="wowType">
+					b<input type="text" id="wowBookcode">
 			</div>
 
 			<div class="d" style="margin-right: 10px; margin-left: 20px;">
@@ -140,22 +140,12 @@ span{
 							<th scope="col">인원</th>
 							<th scope="col">가격</th>
 						</tr>
-						<%-- <c:forEach items="${list}" var="list">
-							<tr style="cursor: pointer;">
-							<td><input type="hidden" value="${list.roomcode}"> </td>
-							<td >${list.roomname}</td>
-							<td>${list.typename}</td>
-							<td>${list.howmany}</td>
-							<td>${list.howmuch}</td>
-						</tr>
-						</c:forEach> --%>
-						
 				</table>
-				<select id="test" size="10">
+				<%-- <select id="test" size="10">
 					 <c:forEach items="${list}" var="list">
 						<option>${list.roomname},${list.typename},${list.howmany},${list.howmuch}</option>
 					</c:forEach> 
-				</select>
+				</select> --%>
 			</div>
 
 			<div class="e" style="margin-left: 30px; margin-right: 20px;">
@@ -164,13 +154,14 @@ span{
 				<div class="col-sm-7 input-group">
 					<label for="expense" class="col-form-label">1박비용(원):</label> 
 					<input type="number" id="expense"class="form-control" placeholder="2000천만원" min="1"
-						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;">
+						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;" 
+						readonly="readonly">
 				</div>
 				<br>
 				<div class="col-sm-7 input-group">
 					<label for="price" class="col-form-label">총 비용(원):</label>
 					<input id="price" type="number" id="inputPassword6" class="form-control" 
-					placeholder="2000천만원" min="1"
+					placeholder="2000천만원" min="1" readonly="readonly"
 						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;">
 				</div>
 				<br>
@@ -217,8 +208,8 @@ span{
 							<th >모바일번호</th>
 						</tr>
 				</table>  
-				<!--  <select id="test2" size="20" style="width: 510px">
-				</select> -->
+				 <!-- <select id="test2" size="20" style="width: 510px">
+				</select>  -->
 				<input type="hidden" valus="${userid}" name=userid>
 			</div>
 		</div>
@@ -235,21 +226,7 @@ let bDate;
 let aDate;
 	$(document)
 	.ready(function(){
-		/* $.post("http://localhost:8080/Hotel/pick",
-		{},
-		function(result){
-			console.log(result);
-			//테이블
-			/* $.each(result,function(k,v){
-				str='<tr><td><input type="hidden" value="'+v.roomcode+'"><input type="hidden" value="'+v.bookcode+'"></td><td>'+v.roomname+'</td><td>'+v.typename+'</td><td>'+v.person+'</td><td>'+v.howmany+'</td><td>'+v.checkin+'</td><td>'+v.checkout+'</td><td>'+v.name+'</td><td>'+v.mobile+'</td></tr>';
-				$("#tbl2").append(str);
-			}) 
-			//select
-			$.each(result,function(k,v){
-				str='<option>'+v.roomname+','+v.typename+','+v.person+','+v.howmany+','+v.checkin+','+v.checkout+','+v.name+','+v.mobile+'</option>';
-				$("#test2").append(str);
-			})
-		},"json"); */
+		
 	})
 	.on("click", "#back", function() {
 		location.href = "/Hotel/logout";
@@ -276,6 +253,9 @@ let aDate;
 		//console.log(aDate,bDate);
 		expense2=$("#expense").val();
 		$("#price").val(expense2*(bDate-aDate));
+		//가능객실 예약객실 클릭시 정보 초기화
+		$("#wowBookcode,#personnel,#pname,#mobile").val('');
+		
 	})
 	//input date blur 값전달.
 	.on("blur","#a",function(){
@@ -309,28 +289,35 @@ let aDate;
 		a=$("#a").val();
 		checkin=a.replace(/-/gi,"");
 		b=$("#b").val();
-		checkout=b.replace(/-/gi,"");  
-		//console.log(checkin,checkout);
+		checkout=b.replace(/-/gi,"");
+		if(a==''||b==''){//날짜 공백시 타입만검색
+			checkin=0;
+			checkout=0;
+		}
+		type2=$("#roomtype").val();
+		//예약가능한 객실리스트
+	 	$.post("http://localhost:8080/Hotel/slt",
+		{code:$("#roomtype").val(),checkin:checkin,checkout:checkout},
+		function(result){
+			//console.log(result);
+			$.each(result,function(k,v){
+				str='<tr><td><input type="hidden" value="'+v.roomcode+'"><input type="hidden" value="'+v.roomtype+'"></td><td>'+v.roomname+'</td>'+'<td>'+v.typename+'</td><td>'+v.howmany+'</td>'+'<td>'+v.howmuch+'</td></tr>';
+				 $("#tbl1").append(str);
+			})
+		},"json");    
+		//console.log(checkin,checkout,type2);
+		//예약중인 테이블
 		$.post("http://localhost:8080/Hotel/tim",
-		{checkin:checkin,checkout:checkout},
+		{checkin:checkin,checkout:checkout,type:type2},
 		function(result){
 			//console.log(result);
 			$.each(result,function(k,v){
 				str='<tr><td><input type="hidden" value="'+v.roomcode+'"><input type="hidden" value="'+v.bookcode+'"><input type="hidden" value="'+v.type+'"><input type="hidden" value="'+v.howmuch+'"><input type="hidden" value="'+v.totalprice+'"></td><td>'+v.roomname+'</td><td>'+v.typename+'</td><td>'+v.person+'</td><td>'+v.howmany+'</td><td>'+v.checkin+'</td><td>'+v.checkout+'</td><td>'+v.name+'</td><td>'+v.mobile+'</td></tr>';
 				$("#tbl2").append(str);
 				})
-		},"json");  
+		},"json");   
 		
-		//예약가능한 객실리스트
-	 	$.post("http://localhost:8080/Hotel/slt",
-		{code:$("#roomtype").val(),checkin:checkin,checkout:checkout},
-		function(result){
-			console.log(result);
-			$.each(result,function(k,v){
-				str='<tr><td><input type="hidden" value="'+v.roomcode+'"><input type="hidden" value="'+v.roomtype+'"></td><td>'+v.roomname+'</td>'+'<td>'+v.typename+'</td><td>'+v.howmany+'</td>'+'<td>'+v.howmuch+'</td></tr>';
-				 $("#tbl1").append(str);
-			})
-		},"json");    
+		
 		
 		let type=$("#roomtype").val();
 		$("#type").val(type).prop("selected",true);
@@ -387,44 +374,52 @@ let aDate;
 		expense=$("#expense").val();
 		price=$("#price").val();
 		typename=$("#type option:selected").attr("value2");
+		$("#tbl2").empty();
 		//console.log(roomcode,roomname,type,typename,person,fullPersonnel,checkin,checkout,name,mobile,expense,price);
-     	$.post("http://localhost:8080/Hotel/reservation",
-		{roomcode:roomcode,person:person,checkin:checkin,checkout:checkout,name:name,mobile:mobile,price:price},
-		function(result){
-			if(result=="success"){
-				 str='<option>'+roomname+','+typename+','+person+','+fullPersonnel+','+checkin+','+checkout+','+name+','+mobile+'</option>';
-				$("#test2").append(str); 
-				//location.reload();
-				$("#set").trigger('click');
-				//예약가능한 객실 에 예약한 객실 표시하기
-				$("#tbl1 tr").each(function(){
-					let deco=$(this).find("td input").val();
-					//console.log('deco:'+deco,roomcode);
-					if(deco==roomcode){
-						$(this).css("text-decoration","line-through");
-						//$(this).toggleClass('decoration');
-						
-						
-						//$(this).remove();
-					}
-				})
-			}else{
-				alert("예약이 완료되지 않았습니다.(DB저장오류)");
-				return false;
-			}
-			},"text");
-		    
-     	 $.post("http://localhost:8080/Hotel/pick",
-	    			{},
-	    			function(result){
-	    				console.log(result);
-	    				//테이블
-	    				 	 $.each(result,function(k,v){
-	    					str='<tr><td><input type="hidden" value="'+v.roomcode+'"><input type="hidden" value="'+v.bookcode+'"><input type="hidden" value="'+v.type+'"><input type="hidden" value="'+v.howmuch+'"><input type="hidden" value="'+v.totalprice+'"></td><td>'+v.roomname+'</td><td>'+v.typename+'</td><td>'+v.person+'</td><td>'+v.howmany+'</td><td>'+v.checkin+'</td><td>'+v.checkout+'</td><td>'+v.name+'</td><td>'+v.mobile+'</td></tr>';
-	    					$("#tbl2").append(str);
-	    					})   
-	    			},"json");		
-     	
+     	if($("#wowBookcode").val()==''){//인서트
+     		$.post("http://localhost:8080/Hotel/reservation",
+     				{roomcode:roomcode,person:person,checkin:checkin,checkout:checkout,name:name,mobile:mobile,price:price},
+     				function(result){
+     					if(result=="success"){
+     						$("#set").trigger('click');
+     						//예약가능한 객실 에 예약한 객실 표시하기
+     						$("#tbl1 tr").each(function(){
+     							let deco=$(this).find("td input").val();
+     							//console.log('deco:'+deco,roomcode);
+     							if(deco==roomcode){
+     								$(this).css("text-decoration","line-through");
+     								//$(this).toggleClass('decoration');
+     								//$(this).remove();
+     							}
+     						})
+     					}else{
+     						alert("예약이 완료되지 않았습니다.(DB저장오류)");
+     						return false;
+     					}
+     					},"text");
+     	}else{//업데이트
+     		bookcode=$("#wowBookcode").val();
+     		console.log("p:",person,name,mobile,bookcode);
+     		$.post("http://localhost:8080/Hotel/update",
+     		{person:person,name:name,mobile:mobile,bookcode:bookcode},
+     		function(result){
+     			console.log('업데이트:'+result);
+     		},"text");
+     	}
+ 			a=$("#a").val();
+ 			checkin2=a.replace(/-/gi,"");	
+ 			b=$("#b").val();
+ 			checkout2=b.replace(/-/gi,"");
+ 			console.log("zzz:"+checkin2,checkout2,wowType);
+ 			$.post("http://localhost:8080/Hotel/tim",
+ 					{checkin:checkin2,checkout:checkout2,type:wowType},
+ 					function(result){
+ 						console.log(result);
+ 						$.each(result,function(k,v){
+ 							str='<tr><td><input type="hidden" value="'+v.roomcode+'"><input type="hidden" value="'+v.bookcode+'"><input type="hidden" value="'+v.type+'"><input type="hidden" value="'+v.howmuch+'"><input type="hidden" value="'+v.totalprice+'"></td><td>'+v.roomname+'</td><td>'+v.typename+'</td><td>'+v.person+'</td><td>'+v.howmany+'</td><td>'+v.checkin+'</td><td>'+v.checkout+'</td><td>'+v.name+'</td><td>'+v.mobile+'</td></tr>';
+ 							$("#tbl2").append(str);
+ 							})
+ 					},"json");  
 	})
 	//초기화 버튼
 	.on("click","#set",function(){
@@ -462,11 +457,42 @@ let aDate;
 			$("#mobile").val(mobile);
 			$("#expense").val(howmuch);
 			$("#price").val(totalprice);
-			
 			//console.log('하:'+roomcode,bookcode,roomtype,roomname,typename,personnel,fullPersonnel,checkin,checkout,pname,mobile);
 		})
 	})
+	//객실 삭제 작업
 	.on("click","#btnDelete",function(){
+		
+		$("#tbl1").empty();
+		 bookcode=$("#wowBookcode").val();
+		$.post("http://localhost:8080/Hotel/delete",
+		{bookcode:bookcode},
+		function(result){
+				if(result=="success"){
+					//예약중인테이블 삭제
+					end=$("#tbl2 tr td").find("input:eq(1)").val();
+					$("#tbl2 tr").each(function(){
+						if($("#wowBookcode").val()==end){
+							$(this).remove();
+						}
+					})
+				}
+		},"text"); 
+		
+		//예약가능한 객실리스트
+		a=$("#a").val();
+		checkin=a.replace(/-/gi,"");
+		b=$("#b").val();
+		checkout=b.replace(/-/gi,"");
+	 	$.post("http://localhost:8080/Hotel/slt",
+		{code:$("#wowType").val(),checkin:checkin,checkout:checkout},
+		function(result){
+			console.log("d"+result);
+			$.each(result,function(k,v){
+				str='<tr><td><input type="hidden" value="'+v.roomcode+'"><input type="hidden" value="'+v.roomtype+'"></td><td>'+v.roomname+'</td>'+'<td>'+v.typename+'</td><td>'+v.howmany+'</td>'+'<td>'+v.howmuch+'</td></tr>';
+				 $("#tbl1").append(str);
+			})
+		},"json"); 
 	})
 	$('#room').hover(function(){
 		$(this).css("color","yellow");

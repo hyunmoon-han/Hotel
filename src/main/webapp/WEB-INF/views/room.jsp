@@ -108,7 +108,7 @@ span{
 						
 					</tbody>
 				</table> --%>
-					<select id="test" size=10 style="width:350px">
+					<select id="test" size="20" style="width:350px">
 						<%-- <c:forEach items="${list}" var="room">
 							<option value="${room.roomcode},${room.roomname},${room.type},${room.typename},${room.howmany},${room.howmuch}"> 
 							${room.roomname},${room.typename},${room.howmany},${room.howmuch}
