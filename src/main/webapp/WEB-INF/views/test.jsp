@@ -112,11 +112,9 @@ td{
 	<div class="main">
 			<div class="col-sm-1 input-group"  style="left: 25%;" >
 				<input id="a" type="date" class=""  style="width: 170px">&nbsp;&nbsp;
-				<input type="number" class="" style="width:57px">&nbsp;&nbsp;
+				<input id="pac" type="text" style="width:57px" readonly="readonly">&nbsp;&nbsp;
 				<input id="b" type="date" class=""  style="width: 170px">&nbsp;&nbsp;
 				<select id="roomtype" class="" style="height: 42px;width: 170px">
-					<option>그거지</option>
-					<option>그거지</option>
 					<c:forEach items="${roomtype}" var="type">
 						<option value="${type.typecode}">${type.typename}</option>
 					</c:forEach>
@@ -203,6 +201,16 @@ td{
 							<th scope="col">가격</th>
 						</tr>
 				</table>
+				<table id="tbl1" class="table table-striped" style="border: 1px;">
+						<tr>
+							<th></th>
+							<th scope="col">객실</th>
+							<th scope="col">Room</th>
+							<th scope="col">인원</th>
+							<th scope="col">가격</th>
+						</tr>
+				</table>
+				
 				<%-- <select id="test" size="10">
 					 <c:forEach items="${list}" var="list">
 						<option>${list.roomname},${list.typename},${list.howmany},${list.howmuch}</option>
@@ -223,7 +231,21 @@ td{
 							<th >예약자</th>
 							<th >모바일번호</th>
 						</tr>
-				</table>  
+				</table>
+				<table id="tbl2" class="table table-striped" style="border: 1px;">
+						<tr>
+							<th></th>
+							<th >객실</th>
+							<th >Room</th>
+							<th>투숙객</th>
+							<th >최대인원</th>
+							<th >체크인</th>
+							<th >체크아웃</th>
+							<th >예약자</th>
+							<th >모바일번호</th>
+						</tr>
+				</table>
+				
 				 <!-- <select id="test2" size="20" style="width: 510px">
 				</select>  -->	
 		</div>
@@ -311,6 +333,7 @@ let aDate;
 			checkin=0;
 			checkout=0;
 		}
+		$("#pac").val(checkout-checkin+'박');
 		type2=$("#roomtype").val();
 		//예약가능한 객실리스트
 	 	$.post("http://localhost:8080/Hotel/slt",
@@ -423,6 +446,7 @@ let aDate;
      			console.log('업데이트:'+result);
      		},"text");
      	}
+     		$("#tbl2").empty();
  			a=$("#a").val();
  			checkin2=a.replace(/-/gi,"");	
  			b=$("#b").val();
