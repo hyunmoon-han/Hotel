@@ -33,6 +33,10 @@ public class HomeController {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	@RequestMapping("/test")
+	public String test2() {
+		return "test";
+	}
 	//booking 작업
 	//예약정보 삭제
 	@ResponseBody

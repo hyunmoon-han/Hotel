@@ -21,8 +21,7 @@
 <style>
 body,html{
 	margin: auto; /* 화면 축소시 스크롤 방지 */
-	background: lightblue; 
-	
+	background: white; 
 	background-repeat:no-repeat; 
     background-size:cover;
     height: 100%;
@@ -36,22 +35,21 @@ header {
 }
 
 section {
-	 background-color: #FFFA82; 
-	 height: 80%;
+	display: grid;
+	gap: 5px;
+	grid-template-columns: 0.7fr 1.3fr;
+	grid-template-rows: 10% 90%;
+	height: 75%;
 }
 
 footer {
 	 background-color: #A814E7; 
-	 height: 10%; 
+	 height: 7%; 
 }
 
 .main {
-	display: grid;
-	gap: 5px;
-	grid-template-columns: 1fr 0.7fr 1.3fr;
-	grid-template-rows: 150px 490px;
-	/* background-color: #FFFA82; */
 	opacity: 0.8;
+	 height: 5%; 
 }
 span{
 	cursor:pointer;
@@ -61,6 +59,37 @@ span{
 .decoration{
 	text-decoration: line-through;
 }
+.modal{
+	 position:absolute; 
+	 width:100%;
+	 height:100%; 
+	 background: rgba(0,0,0,0.8); 
+	 top:0; left:0; 
+	 display:none; 
+	 }
+.modal_content{
+  width:500px; height:570px;
+  background:#fff; border-radius:10px;
+  position:relative; top:25%; left:50%;
+  margin-top:-100px; margin-left:-200px;
+  text-align:center;
+  box-sizing:border-box; padding:20px 100px;
+  line-height:23px; cursor:pointer;
+	}
+#x{
+	position:relative;
+	top:15%; 
+	left:75%;
+	background-color: white;
+	}
+table {
+  border-collapse: separate;
+  border-spacing: 0px 2px;
+	}
+td{
+	border-bottom: 1px
+}		
+
 </style>
 </head>
 
@@ -76,63 +105,96 @@ span{
 		<input id="back" type="button" value="로그아웃"
 			style="float: right; margin-right: 40px;">
 	</header>
+	
+	<div style="text-align: center;">
+		<span style="margin-right: 95px">체크인</span><span style="margin-left: 50px;margin-right: 250px;">체크아웃</span>
+	</div>
+	<div class="main">
+			<div class="col-sm-1 input-group"  style="left: 25%;" >
+				<input id="a" type="date" class=""  style="width: 170px">&nbsp;&nbsp;
+				<input type="number" class="" style="width:57px">&nbsp;&nbsp;
+				<input id="b" type="date" class=""  style="width: 170px">&nbsp;&nbsp;
+				<select id="roomtype" class="" style="height: 42px;width: 170px">
+					<option>그거지</option>
+					<option>그거지</option>
+					<c:forEach items="${roomtype}" var="type">
+						<option value="${type.typecode}">${type.typename}</option>
+					</c:forEach>
+				</select>
+				<button type="button" class="btn btn-info" id="slt">검색</button>
+			</div> 
+	</div>
 	<section>
-		<div class="main">
-			<div class="a" style="margin-right: 50px; margin-left: 40px;">
-				<br>
-				숙박기간:
-				<div class="col-sm-1 input-group">
-					<input id="a" type="date" class="form-control"  placeholder="dd">~
-					<input id="b" type="date" class="form-control">
-				</div>
-				<br>
-				객실분류:
-				<div class="input-group">
-					<select id="roomtype" class="form-select form-select-mg " style="height: 42px;">
-						<c:forEach items="${roomtype}" var="type">
-							<option value="${type.typecode}">${type.typename}</option>
-						</c:forEach>
-					</select>
-					<button type="button" class="btn btn-info" id="slt">검색</button>
-				</div>
-
-			</div>
-			<div class="b" style="margin-left: 30px; margin-right: 20px;">
-				<br>
-				<div class="col-md-8 input-group">
-					객실명:&nbsp;&nbsp;<input type="text" class="form-control" id="roomname" readonly="readonly">
-				</div>
-				<br>
-				<div class="col-md-8 input-group">
-					객실종류:&nbsp;&nbsp;<select id="type" class="form-select form-select-mg " disabled="disabled" style="height: 40px;">
-											<c:forEach items="${roomtype}" var="type">
-												<option value="${type.typecode}" value2="${type.typename}">${type.typename}</option>
-											</c:forEach>
-										</select>
-				</div>
-				<br>
-				<div class="col-sm-7 input-group">
-					<label for="fullPersonnel" class="col-form-label">최대
-						인원(명):</label> <input type="number" id="fullPersonnel"
-						class="form-control" placeholder="2명" min="1" readonly="readonly"
+		<input type="button" value="예약하기" id="mo">
+			<div class="modal"> 	
+				<button class="btn-close" aria-label="Close" id="x" ></button>
+				<div class="modal_content" title="클릭하면 창이 닫힙니다."> 
+					<div class="col-md-8 input-group">
+						객실명:&nbsp;&nbsp;<input type="text" class="form-control" id="roomname" readonly="readonly">
+						
+					</div>
+					<br>
+					<div class="col-md-8 input-group">
+						객실종류:&nbsp;&nbsp;
+						<select id="type" class="form-select form-select-mg " disabled="disabled" style="height: 40px;">
+							<c:forEach items="${roomtype}" var="type">
+								<option value="${type.typecode}" value2="${type.typename}">${type.typename}</option>
+							</c:forEach>
+						</select>
+					</div>
+					<br>
+					<div class="col-sm-7 input-group">
+						<label for="fullPersonnel" class="col-form-label">최대인원(명):</label> 
+						<input type="number" id="fullPersonnel" class="form-control" placeholder="2명" min="1" readonly="readonly"
+							style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;">
+					</div>
+					<br>
+					<div class="col-sm-7 input-group">
+						<label for="expense" class="col-form-label">1박비용(원):</label> 
+						<input type="number" id="expense"class="form-control" min="1"
+						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;" readonly="readonly">
+					</div>
+					<br>
+					<div class="col-sm-7 input-group">
+						<label for="price" class="col-form-label">총 비용(원):</label>
+						<input id="price" type="number" id="inputPassword6" class="form-control" min="1" readonly="readonly"
 						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;">
-				</div>
-				<br>
+					</div>
+					<br>
+					<div class="col-sm-7 input-group">
+						<label for="personnel" class="col-form-label">투숙색(명):</label> <input type="number" id="personnel"
+						class="form-control" min="1"style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;">
+					</div>
+					<br>
+					<div class="col-md-8 input-group">
+						<label for="pname" class="form-label">예약자 이름:</label>&nbsp;&nbsp;&nbsp;
+						<input type="text" class="form-control" id="pname">
+					</div>
+					<br>
+					<div class="col-md-8" style="margin-left:40px">
+						<label for="mobile" class="form-label">예약자 모바일 번호:</label> 
+						<input type="text" class="form-control" id="mobile"placeholder="000-0000-0000"> (-을 뺴고 입력해주세요.) 
+					</div>
+					<br>
+					<br>
+					<div style="text-align:center;">
+						<button id="btnAdd" type="button" class="btn btn-success">등록</button>
+						<button id="set"type="button" class="btn btn-primary" style="">깔끔</button>
+						<button id="btnDelete" type="button" class="btn btn-primary btn-rg"
+						style="color: indigo-400; background-color:  #FF5050">삭제</button>
+					</div>
+				</div> 
 			</div>
-			<div class="c">
-				<br>
-				<br>
-				<br>
-				<br> <label style="text-align: center; margin-left: 10px; font-size: 25px;"
-					for="ac">현재 예약된 객실 리스트(아래)</label>
-					<input type="hidden" id="wowCode">
-					<input type="hidden" id="wowType">
-					<input type="hidden" id="wowBookcode">
-			</div>
-
-			<div class="d" style="margin-right: 10px; margin-left: 20px;">
-				<br> 예약가능한 객실:
-				<table id="tbl1" class="table table-dark" style="border: 1px;">
+	
+		<div>
+			<input type="text" id="wowCode">
+			<input type="text" id="wowType">
+			<input type="text" id="wowBookcode">
+		</div>
+	
+		<div>
+				<p style="font-size: 25px; color: red;">예약가능한 객실:</p> 
+				<table id="tbl1" class="table table-striped" style="border: 1px;">
 						<tr>
 							<th></th>
 							<th scope="col">객실</th>
@@ -146,56 +208,10 @@ span{
 						<option>${list.roomname},${list.typename},${list.howmany},${list.howmuch}</option>
 					</c:forEach> 
 				</select> --%>
-			</div>
-
-			<div class="e" style="margin-left: 30px; margin-right: 20px;">
-				<br>
-				<br>
-				<div class="col-sm-7 input-group">
-					<label for="expense" class="col-form-label">1박비용(원):</label> 
-					<input type="number" id="expense"class="form-control" min="1"
-						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;" 
-						readonly="readonly">
-				</div>
-				<br>
-				<div class="col-sm-7 input-group">
-					<label for="price" class="col-form-label">총 비용(원):</label>
-					<input id="price" type="number" id="inputPassword6" class="form-control" 
-					 min="1" readonly="readonly"
-						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;">
-				</div>
-				<br>
-				<div class="col-sm-7 input-group">
-					<label for="personnel" class="col-form-label">
-						투숙색(명):</label> <input type="number" id="personnel"
-						class="form-control" min="1"
-						style="margin-left: 10px; margin-right: 60px; border-radius: 20px 20px 20px 20px;">
-				</div>
-				<br>
-				<div class="col-md-8 input-group">
-					<label for="pname" class="form-label">예약자 이름:</label>&nbsp;&nbsp;&nbsp;
-					 <input type="text" class="form-control" id="pname">
-				</div>
-				<br>
-				<div class="col-md-8">
-					<label for="mobile" class="form-label">예약자 모바일 번호:</label> <input
-						type="text" class="form-control" id="mobile"
-						placeholder="000-0000-0000"> (-을 뺴고 입력해주세요.) <br>
-				</div>
-
-				<br>
-				<div style="text-align:center">
-					<button id="btnAdd" type="button" class="btn btn-success">등록</button>
-					<button id="set"type="button" class="btn btn-warning" style="">깔끔</button>
-					<button id="btnDelete" type="button" class="btn btn-primary btn-rg"
-					style="color: indigo-400; background-color:  #FF5050">삭제</button>
-				</div>
-			</div>
-			<div class="f" style="margin-left: 10px; margin-right: 15px;">
-				<br>
+		</div>
+		<div>
 				<p style="font-size: 25px; color: red;">sold out</p>
-
-				  <table id="tbl2" class="table table-dark" style="border: 1px;">
+				  <table id="tbl2" class="table table-striped" style="border: 1px;">
 						<tr>
 							<th></th>
 							<th >객실</th>
@@ -209,18 +225,19 @@ span{
 						</tr>
 				</table>  
 				 <!-- <select id="test2" size="20" style="width: 510px">
-				</select>  -->
-				<input type="hidden" valus="${userid}" name=userid>
-			</div>
+				</select>  -->	
 		</div>
-
+		
+			
+			
 	</section>
 	<footer>
 		<h1 style="text-align: center; color: #FF9100;">MOON</h1>
 	</footer>
 
-	
+
 </body>
+
 <script>
 let bDate;
 let aDate;
@@ -374,7 +391,7 @@ let aDate;
 		expense=$("#expense").val();
 		price=$("#price").val();
 		typename=$("#type option:selected").attr("value2");
-		$("#tbl2").empty();
+		//$("#tbl2").empty();
 		//console.log(roomcode,roomname,type,typename,person,fullPersonnel,checkin,checkout,name,mobile,expense,price);
      	if($("#wowBookcode").val()==''){//인서트
      		$.post("http://localhost:8080/Hotel/reservation",
@@ -501,13 +518,23 @@ let aDate;
 		}else{
 			return false;
 		}
-		
 	})
 	$('#room').hover(function(){
 		$(this).css("color","yellow");
 	},function(){
 		$(this).css("color","black");
 	})
-	
+	$(function(){ 
+		$("#mo").click(function(){ 
+			$(".modal").fadeIn(); 
+		}); 
+		$("#x").click(function(){ 
+			$(".modal").fadeOut(); 
+		}); 
+	});
+
+
 </script>
 </html>
+
+	
