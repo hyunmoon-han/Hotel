@@ -6,11 +6,17 @@
 
 <head>
 <title>객실관리</title>
+<!-- 구글 폰트 글꼴 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<!-- 부트스트랩 css -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
 rel="stylesheet"
 	integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
 	crossorigin="anonymous">
-	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<!-- 제이쿼리 -->
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 	
 
 
@@ -18,26 +24,28 @@ rel="stylesheet"
 body,html{
 	margin: auto; /* 화면 축소시 스크롤 방지 */
 	background: lightblue; 
-	
 	background-repeat:no-repeat; 
     background-size:cover;
     height: 100%;
     width:100%;
-    background-position: center center; 
+    background-position: center center;
+    font-family: 'Jua', sans-serif;
+	font-family: 'Nanum Pen Script', cursive;
+	font-size: 18px; 
 }
 header {
-	background-color: #6DD66D;
+	background-color: #f2e3c4;
 	height: 10%;
 	opacity: 0.9;
 }
 
 section {
-	background-color: #FFFA82;
+	background-color:white;
 	height: 80%;
 }
 
 footer {
-	background-color: #A814E7;
+	background-color: #f2e3c4;
 	height: 10%;
 }
 
@@ -46,77 +54,53 @@ footer {
 	gap: 5px;
 	grid-template-columns: 2fr 2fr 1fr;
 	grid-template-rows: 400px 240px;
-	background-color: #FFFA82;
+	background-color: white;
 }
 
 .a {
 	grid-row-start: 1;
 	grid-row-end: 3;
-	background-color: #FFFA82;
+	background-color: white;
 	margin-left: 15px;
 	margin-right: 15px;
-	margin-top: 25px;
+	margin-top: -20px;
+	height: 400px;
 }
 span{
-	font-size: 30px; 
+	font-size: 32px;
 	margin-left: 20px;
 	cursor: pointer;
 }
+select{
+	cursor: pointer;
+	font-size: 23px
+}
 </style>
 </head>
-
 <body>
-	
 	<header>
-	<%
-	String q=(String)session.getAttribute("loginid") ;
-		out.println("안녕하세요."+q+"님 환영합니다!!");
-	%><br>
+	<br>
 		<span id="check">예약관리</span>
-		<span id="room" style="text-decoration: underline;text-underline-position:under;" >객실관리</span> 
-		<input id="back" type="button" value="로그아웃" style="float: right;margin-right: 40px;">
+		<span id="room" style="text-decoration: underline;text-underline-position:under;" >객실관리</span>
+		<span style="text-align: center;position: absolute; left: 40%; top: 0px;font-size: 50px">1854<br>
+		<span style="font-size: 28px;position: absolute;top: 37px;left: -13px;">Hotel</span></span>
+		<div style="float: right; position: relative;right: 70px;">
+			<%
+			String q=(String)session.getAttribute("loginid") ;
+				out.println("안녕하세요."+q+"님 환영합니다!!");
+			%>
+			<input id="back" type="button" value="로그아웃" style="margin-right: 40px;position: relative;left:30px ;">
+		</div> 
 	</header>
 	<section>
 		<div class="main">
 			<div class="a" >
 				<br>
-				<h1 style="text-align: center;">객실</h1>
-	<%-- 			<table class="table table-dark table-striped" id="tbl1" style="cursor: pointer;">
-					<thead>
-						<tr>
-							<th scope="col"></th>
-							<th scope="col">이름</th>
-							<th scope="col">Room</th>
-							<th scope="col">최대 인원</th>
-							<th scope="col">가격(원)</th>
-						</tr>
-					</thead>
-					<tbody>
-					<c:forEach items="${list}" var="room">
-						<tr> 
-							<td><input type="hidden" value="${room.roomcode}">
-							<input type=hidden value="${room.type}">
-							</td> 
-							<td>${room.roomname}</td>
-							<td>${room.typename}</td>
-							<td>${room.howmany}</td>
-							<td>${room.howmuch}</td>
-						<tr>
-					</c:forEach>
-						
-						
-						
-					</tbody>
-				</table> --%>
-					<select id="test" size="20" style="width:350px">
-						<%-- <c:forEach items="${list}" var="room">
-							<option value="${room.roomcode},${room.roomname},${room.type},${room.typename},${room.howmany},${room.howmuch}"> 
-							${room.roomname},${room.typename},${room.howmany},${room.howmuch}
-							</option>
-							
-						</c:forEach> --%>
+				<h1 style="margin-left:100px">객실</h1>
+					<select id="test" size="15" style="width:350px ;text-align: center;">
+						<option>객실    room   최대인원   가격(원)</option> 
+						<option>-----------------------------------------</option>
 					</select>
-
 			</div>
 			<div class="b">
 				<br>
@@ -162,11 +146,10 @@ span{
 				</div>
 				<br>
 				<div style="padding-left: 190px; margin-top: 30px;">
-					<button id="btnAdd" type="button" class="btn btn-success">등록</button>
-					<button id="btnDelete" type="button" class="btn btn-primary btn-lg"
+					<button id="btnAdd" type="button" class="btn btn-success" style="width:65px">등록</button>
+					<button id="btnDelete" type="button" class="btn btn-danger"
 						style="color: indigo-400;">삭제</button>
-					<button id="btnEnpty" type="button" class="btn btn-warning"
-						style="background-color: #FF5050;">깔끔</button>
+					<button id="btnEnpty" type="button" class="btn btn-warning">초기화</button>
 				</div>
 			</div>
 			<div class="e"></div>
