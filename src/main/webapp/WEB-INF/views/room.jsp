@@ -17,8 +17,6 @@ rel="stylesheet"
 	crossorigin="anonymous">
 <!-- 제이쿼리 -->
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-	
-
 
 <style>
 body,html{
@@ -94,6 +92,7 @@ select{
 	</header>
 	<section>
 		<div class="main">
+		<!-- 등록된 객실 목록 -->
 			<div class="a" >
 				<br>
 				<h1 style="margin-left:100px">객실</h1>
@@ -102,6 +101,7 @@ select{
 						<option>-----------------------------------------</option>
 					</select>
 			</div>
+			<!-- 입력정보 -->
 			<div class="b">
 				<br>
 				<div class="col-md-8" style="margin-left: 158px;">
@@ -148,7 +148,7 @@ select{
 				<div style="padding-left: 190px; margin-top: 30px;">
 					<button id="btnAdd" type="button" class="btn btn-success" style="width:65px">등록</button>
 					<button id="btnDelete" type="button" class="btn btn-danger"
-						style="color: indigo-400;">삭제</button>
+						style="color: indigo-400;" disabled>삭제</button>
 					<button id="btnEnpty" type="button" class="btn btn-warning">초기화</button>
 				</div>
 			</div>
@@ -167,6 +167,7 @@ select{
 </body>
 <script>
 	$(document)
+	//페이지 로드시 객실목록 리스트 출력
 	.ready(function(){
 		  $.post(
 				"http://localhost:8080/Hotel/RoomType2",
@@ -185,12 +186,20 @@ select{
 				},
 				"json");  
 	})
+	//예약관리 페이지 이동
 	.on("click","#check",function(){
 		location.href="/Hotel/booking";
 	})
+	//로그아웃 클릭시 로그인 페이지로 이동
 	.on("click","#back",function(){
-		location.href="/Hotel/logout";
+		k=confirm("로그아웃 하시겠습니까?")
+		if(k){
+			location.href = "/Hotel/logout";
+		}else{
+			return false;
+		}
 	})
+	//테이플 클릭시 정보값 이동
 	.on("click","#tbl1 tr",function(){
 		$(this).each(function(){
 			name=$(this).find("td:eq(1)").text();
@@ -215,12 +224,19 @@ select{
 		k=$("#roomlist").val();
 		$("#roomtype").val(k);
 	})
+	// 초기화 버튼 클리깃 정보값 초기화
 	.on("click","#btnEnpty",function(){
 		//$("#inputEmail4").val('');
 		//$('#roomlist').val('Suite Room').prop('selected',true);
 		//$("#validationCustom04").val('1').prop("selected",true);
 		//$("#price").val('');
-		$("#inputEmail4,#roomlist,#validationCustom04,#price,#roomcode,#roomtype").val('');
+		k=confirm("입력을 초기화 하시겠습니까?");
+		if(k){
+			$("#inputEmail4,#roomlist,#validationCustom04,#price,#roomcode,#roomtype").val('');	
+		}else{
+			return false;
+		}
+		
 	})
 	//select 값이동
 	.on("click","#test option",function(){
@@ -231,35 +247,52 @@ select{
 		$("#price").val(k[5]);
 		$("#roomcode").val(k[0]);
 		$("#roomtype").val(k[2]);
+		$("#btnDelete").attr("disabled",false);
 	})
+	//해당 객실 삭제처리버튼
 	.on("click","#btnDelete",function(){
-		k=confirm('정말로 삭제 하시겠니까?')
-		if(k==true){
-			$.post("http://localhost:8080/Hotel/deleteRoom",{roomcode:$("#roomcode").val()},
-					function(result){
-						console.log(result);
-						$("#btnEnpty").trigger('click');//입력난 비우기
-						$("#test option:selected").remove();//지우기
-						$("#tbl1 tr").each(function(){
-							c=$(this).find('input:eq(0)').val();
-							if(c==$("#roomcode").val()){
-								$(this).remove();
-							}
-						})
-						location.reload();
-						
-					},"text");
-		}else{
+		if($("#inputEmail4").val()==''||$("#roomlist").val()==''||
+				$("#validationCustom04").val()==''||$("#price").val()==''){
+			alert("빈 정보값이 존재합니다.");
+			console.log("1="+$("#inputEmail4").val()+"2="+$("#roomlist").val()+"3="+$("#validationCustom04").val()+"4="+$("#price").val());
 			return false;
+		}else{
+			k=confirm('정말로 삭제 하시겠니까?')
+			if(k==true){
+				$.post("http://localhost:8080/Hotel/deleteRoom",{roomcode:$("#roomcode").val()},
+						function(result){
+							console.log(result);
+							$("#btnEnpty").trigger('click');//입력난 비우기
+							$("#test option:selected").remove();//지우기
+							$("#tbl1 tr").each(function(){
+								c=$(this).find('input:eq(0)').val();
+								if(c==$("#roomcode").val()){
+									$(this).remove();
+								}
+							})
+							location.reload();
+							
+						},"text");
+			}else{
+				return false;
+			}
 		}
 		
+		
 	})
-	.on("click","#btnAdd",function(){   
+	//새로운 객실 추가 버튼
+	.on("click","#btnAdd",function(){
+		if($("#inputEmail4").val()==''||$("#roomlist").val()==''||
+				$("#validationCustom04").val()==''||$("#price").val()==''){
+			alert("빈 정보값이 존재합니다.");
+			console.log("1="+$("#inputEmail4").val()+"2="+$("#roomlist").val()+"3="+$("#validationCustom04").val()+"4="+$("#price").val());
+			return false;
+		}
 		let roomname=$("#inputEmail4").val();
 		let roomtype=$("#roomtype").val();
 		let howmany=$("#validationCustom04").val();
 		let howmuch=$("#price").val();
-		//console.log(roomname,roomtype,howmany,howmuch);
+		console.log(roomname,roomtype,howmany,howmuch);
 		let roomcode=$("#roomcode").val();
 		//console.log('코드'+roomcode);
 		k=confirm("추가 및 변경하시겠니까?");
@@ -288,8 +321,6 @@ select{
 		$("#btnEnpty").trigger('click');
 		
 	})
-	
-	
 	$('#check').hover(function(){
 		$(this).css("color","yellow");
 	},function(){

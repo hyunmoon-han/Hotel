@@ -105,7 +105,7 @@ table {
 	}
 .btn-secondary {
     color: #fff;
-    background-color: #a0abe8;
+    background-color: #415be8;
     border-color: #a0abe8;
 }
 .dropup .dropdown-toggle::after {
@@ -133,7 +133,7 @@ table {
 			<input id="back" type="button" value="로그아웃" style="position: relative;left:30px ;">
 		</div>
 	</header>
-	
+	<!-- 체크인 ,체크아웃 문구 -->
 	<div style="text-align: center;">
 		<span style="margin-right: 200px; font-size: 17px">체크인</span>
 		<span style="margin-right: 170px; font-size: 17px">체크아웃</span>
@@ -152,6 +152,7 @@ table {
 			</div> 
 	</div>
 	<section>
+	<!-- 예약하기 버튼 클릭시 모달창 -->
 		<input type="button" value="예약하기" class="btn btn-secondary btn-lg mo" style="width: 50%;margin-left:70px">
 			<div class="modal"> 	
 				<button class="btn-close x" aria-label="Close" ></button>
@@ -210,13 +211,13 @@ table {
 					</div>
 				</div> 
 			</div>
-	
+		
 		<div>
 			<input type="hidden" id="wowCode">
 			<input type="hidden" id="wowType">
 			<input type="hidden" id="wowBookcode">
 		</div>
-	
+		<!-- 예약 가능한 객실 표시 -->
 		<div>
 				<p style="font-size: 25px; color: red;">예약가능한 객실</p>
 				<table id="" class="table table-striped" style="border: 1px;">
@@ -232,13 +233,13 @@ table {
 				<table id="tbl1" class="table table-striped" style="border: 1px;">
 						
 				</table>
-				
 				<%-- <select id="test" size="10">
 					 <c:forEach items="${list}" var="list">
 						<option>${list.roomname},${list.typename},${list.howmany},${list.howmuch}</option>
 					</c:forEach> 
 				</select> --%>
 		</div>
+		<!-- 예약 완료된 객실 표시 -->
 		<div>
 				<p style="font-size: 25px; color: red;">예약된 객실</p>
 				  <table id="" class="table table-striped" style="border: 1px;">
@@ -272,15 +273,10 @@ table {
 						</tr>
 				</table>
 				<table id="tbl2" class="table table-striped" style="border: 1px;">
-						
 				</table>
-				
 				 <!-- <select id="test2" size="20" style="width: 510px">
 				</select>  -->	
 		</div>
-		
-			
-			
 	</section>
 	<footer>
 		<h1 style="text-align: center; color: #d6b68b;">MOON</h1>
@@ -297,7 +293,12 @@ let aDate;
 		
 	})
 	.on("click", "#back", function() {
-		location.href = "/Hotel/logout";
+		k=confirm("로그아웃 하시겠습니까?")
+		if(k){
+			location.href = "/Hotel/logout";
+		}else{
+			return false;
+		}
 	})
 	.on("click", "#room", function() {
 		location.href = "/Hotel/room";

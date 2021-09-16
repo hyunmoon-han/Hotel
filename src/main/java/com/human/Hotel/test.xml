@@ -22,7 +22,7 @@
 	<!-- 추가 -->
 	<insert id="doAddRoom">
 		    <!--insert into room(roomcode,name,type,howmany,howmuch) values(seq_room.nextval,#{roomname},#{type},#{howmany},#{howmuch})-->
-		  insert into room values(seq_room2.nextval,#{param1},#{param2},#{param3},#{param4})
+		  insert into room values(seq_room.nextval,#{param1},#{param2},#{param3},#{param4})
 	</insert>
 	<!-- 업데이트 -->
 	<update id="doUpdateRoom">

@@ -10,7 +10,6 @@
 <style>
 body,html{
 	margin: auto; /* 화면 축소시 스크롤 방지 */
-	background: lightblue; 
 	background-image: url("./resources/img/Hotel.jpg") ;
 	background-repeat:no-repeat; 
     background-size:cover;
@@ -43,16 +42,16 @@ body,html{
 	<input type="button" value="확인" id="go">
 	<input type="button" value="회원가입" id="ss">
 	<input type="button" value="취소" id="cc">
-	<input type="hidden" id="ac" value="${ac}">
+	<%-- <input type="hidden" id="ac" value="${ac}"> --%>
 </div>	
 </body>
 <script>
 $(document)
 .ready(function(){
-	if($("#ac").val()=="0"){
+	/* if($("#ac").val()=="0"){
 		alert("등록되지 않은 정보입니다.");
 		$("#ac").val('');
-	}
+	} */
 })
 .on("click","#ss",function(){
 	location.href="/Hotel/newbie"
@@ -64,20 +63,32 @@ $(document)
 
 	let pstr=$.trim($("input[name=userid]").val());
 	$('input[name=userid]').val(pstr);
-	pstr=$.trim($("input[name=password]").val());
-	$('input[name=password]').val(pstr);
+	pstr=$.trim($("input[name=userpw]").val());
+	$('input[name=userpw]').val(pstr);
 	
 	if($('input[name=userid]').val()==''){
 		alert("로그인 아이디를 입력하세요. ");
 		return false;
 	}
-	if($('input[name=password]').val()==''){
+	if($('input[name=userpw]').val()==''){
 		alert("비밀번호를 입력하세요. ");
 		return false;
-	}
-	$('form').submit();
+	}//ajax로 등록된 아이디 검열
+	 $.post("http://localhost:8080/Hotel/check_user2",
+	{userid:$('input[name=userid]').val(),userpw:$('input[name=userpw]').val()},
+	function(result){
+		 if(result=="0"){
+				alert("등록되지 않은 정보입니다.");
+				$('input[name=userid]').val('');
+				$('input[name=userpw]').val('');
+				return false;
+		 }else{
+			 //로그인 아이디 있을시 ----ajax는 redirect 사용 못해서 사용
+			 alert("회원 인증에 성공하셨습니다.");
+			 $('form').submit();
+		 }
+	},"text"); 
 })
-
 
 </script>
 </html>

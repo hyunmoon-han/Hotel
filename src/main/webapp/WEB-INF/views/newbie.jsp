@@ -65,17 +65,31 @@ $(document)
 	}
 	k=$("#pw1").val();
 	s=$("#pw2").val();
-	if(k==s){
-		$("form").submit();
-		alert("회원가입이 완료되었습니다.");
-		return true;
-	}else{
+	if(k!=s){
 		alert("비밀번호가 같지 않습니다.");
 		return false;
+	}else{
+		 check=confirm("회원 정보를 등록하시겠습니까?");
+		if(check){
+			alert("회원가입이 완료되었습니다.");
+			$("form").submit();
+			return true;
+		}else{
+			return false;
+		} 
+		
 	}
+	
+	
 })
 .on("click","#cancle",function(){
-	location.href="/Hotel/login"
+	a=confirm("로그인 페이지로 이동하시겠습니까?");
+	if(a){
+		location.href="/Hotel/login";
+	}else{
+		return false;
+	}
+	
 })
 </script>
 </html>

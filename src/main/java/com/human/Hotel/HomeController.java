@@ -239,9 +239,24 @@ public class HomeController {
 			return "booking";
 		}
 	}
+	//로그인 아이디 체크 ajax
+	@ResponseBody
+	@RequestMapping(value="/check_user2",method=RequestMethod.POST)
+	public String view3(HttpServletRequest shr,Model model) {
+		String userid=shr.getParameter("userid");
+		String passcode=shr.getParameter("userpw");
+		iMember member=sqlSession.getMapper(iMember.class);
+		int n=member.doCheckUser(userid, passcode);
+		if(n>0) {
+			return "1";			
+		}else {
+			return "0";
+		}
+	}
+	
 	//로그인 확인
 	@RequestMapping(value="/check_user",method=RequestMethod.POST)
-	public String view(HttpServletRequest shr,Model model) {
+	public String view(HttpServletRequest shr) {
 		String userid=shr.getParameter("userid");
 		String passcode=shr.getParameter("userpw");
 		
@@ -252,7 +267,6 @@ public class HomeController {
 			session.setAttribute("loginid", userid);
 			return "redirect:/booking";			
 		}else {
-			model.addAttribute("ac","0");
 			return "Login";
 		}
 	}
