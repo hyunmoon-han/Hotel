@@ -386,7 +386,7 @@ let aDate;
 		function(result){
 			//console.log(result);
 			$.each(result,function(k,v){
-				str='<tr><td style="width:1px"><input type="hidden" value="'+v.roomcode+'"><input type="hidden" value="'+v.bookcode+'"><input type="hidden" value="'+v.type+'"><input type="hidden" value="'+v.howmuch+'"><input type="hidden" value="'+v.totalprice+'"></td><td style="width:90px">'+v.roomname+'</td><td>'+v.typename+'</td><td>'+v.person+'</td><td>'+v.howmany+'</td><td>'+v.checkin+'</td><td>'+v.checkout+'</td><td>'+v.name+'</td><td>'+v.mobile+'</td><td><div class="form-check"><input class="form-check-input" type="radio" name="dio" ></div></td></tr>';
+				str='<tr><td style="width:1px"><input type="hidden" value="'+v.roomcode+'"><input type="hidden" value="'+v.bookcode+'"><input type="hidden" value="'+v.type+'"><input type="hidden" value="'+v.howmuch+'"><input type="hidden" value="'+v.totalprice+'"></td><td style="width:140px">'+v.roomname+'</td><td>'+v.typename+'</td><td>'+v.person+'</td><td>'+v.howmany+'</td><td>'+v.checkin+'</td><td>'+v.checkout+'</td><td>'+v.name+'</td><td>'+v.mobile+'</td><td><div class="form-check"><input class="form-check-input" type="radio" name="dio" ></div></td></tr>';
 				$("#tbl2").append(str);
 				})
 		},"json");   
@@ -491,7 +491,7 @@ let aDate;
  					function(result){
  						console.log(result);
  						$.each(result,function(k,v){
- 							str='<tr><td style="width:1px"><input type="hidden" value="'+v.roomcode+'"><input type="hidden" value="'+v.bookcode+'"><input type="hidden" value="'+v.type+'"><input type="hidden" value="'+v.howmuch+'"><input type="hidden" value="'+v.totalprice+'"></td><td style="width:90px">'+v.roomname+'</td><td>'+v.typename+'</td><td>'+v.person+'</td><td>'+v.howmany+'</td><td>'+v.checkin+'</td><td>'+v.checkout+'</td><td>'+v.name+'</td><td>'+v.mobile+'</td><td><div class="form-check"><input class="form-check-input" type="radio" name="dio" ></div></td></tr>';
+ 							str='<tr><td style="width:1px"><input type="hidden" value="'+v.roomcode+'"><input type="hidden" value="'+v.bookcode+'"><input type="hidden" value="'+v.type+'"><input type="hidden" value="'+v.howmuch+'"><input type="hidden" value="'+v.totalprice+'"></td><td style="width:140px">'+v.roomname+'</td><td>'+v.typename+'</td><td>'+v.person+'</td><td>'+v.howmany+'</td><td>'+v.checkin+'</td><td>'+v.checkout+'</td><td>'+v.name+'</td><td>'+v.mobile+'</td><td><div class="form-check"><input class="form-check-input" type="radio" name="dio" ></div></td></tr>';
  							$("#tbl2").append(str);
  							})
  					},"json");
@@ -516,9 +516,6 @@ let aDate;
 			typename=$(this).find("td:eq(2)").text();
 			personnel=$(this).find("td:eq(3)").text();
 			fullPersonnel=$(this).find("td:eq(4)").text();
-			//띄어쓰기자르기
-			let pstr=$.trim($(this).find("td:eq(5)").text());
-			let pstr2=$.trim($(this).find("td:eq(6)").text());
 			pname=$(this).find("td:eq(7)").text();
 			mobile=$(this).find("td:eq(8)").text();
 			$("#wowCode").val(roomcode);
@@ -529,8 +526,6 @@ let aDate;
 			$("#type").val(roomtype).prop("selected",true);
 			$("#personnel").val(personnel);
 			$("#fullPersonnel").val(fullPersonnel);
-			$("#a").val(pstr);
-			$("#b").val(pstr2);
 			$("#pname").val(pname);
 			$("#mobile").val(mobile);
 			$("#expense").val(howmuch);

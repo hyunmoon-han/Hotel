@@ -5,20 +5,20 @@
 <mapper namespace="com.human.Hotel.iEnd">
 	<!-- 예약 추가 -->
 	<insert id="doAdd">
-		insert into booking values (SEQROOM.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7})
+		insert into booking2 values (SEQROOM.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7})
 	</insert>
 	<!-- 예약수정 -->
 	<update id="doUpdate">
-		update booking set person=#{param1},name=#{param2},mobile=#{param3} where bookcode=#{param4}
+		update booking2 set person=#{param1},name=#{param2},mobile=#{param3} where bookcode=#{param4}
 	</update>
 	<!-- 예약 삭제 처리 -->
 	<delete id="doDelete">
-		delete from booking where bookcode=#{param1}
+		delete from booking2 where bookcode=#{param1}
 	</delete>
 	<!-- 예약중인객실 검색-->
 	<select id="doTim" resultType="com.human.Hotel.Roominfo">
 		select a.bookcode,b.roomcode,c.name typename, b.name roomname, b.type, b.howmany,b.howmuch, a.person,a.checkin, a.checkout,a.totalprice, a.name, a.mobile
-		from booking a, room b ,roomtype c
+		from booking2 a, room b ,roomtype c
 		<![CDATA[
 		where replace(a.checkout,'-','') > #{param1} and replace(a.checkin,'-','') < #{param2}
 		and a.roomcode=b.roomcode and b.type=c.typecode and b.type=#{param3} order by replace(a.checkin,'-','') 
@@ -27,13 +27,13 @@
 	<!-- 예약가능한 객실검색 -->
 	<select id="doSlt" resultType="com.human.Hotel.Roominfo">
 		select DISTINCT b.roomcode , b.howmuch,b.howmany,b.name roomname,b.type,c.name typename 
-		from booking a,room b,roomtype c
+		from booking2 a,room b,roomtype c
 		<![CDATA[
 		where b.roomcode in      
 		(
 		select roomcode from room
 		minus
-		select distinct roomcode from booking where replace(checkout,'-','')> #{param1} and replace(checkin,'-','') < #{param2})
+		select distinct roomcode from booking2 where replace(checkout,'-','')> #{param1} and replace(checkin,'-','') < #{param2})
 		and b.type=c.typecode and b.type=#{param3} order by b.howmuch
 		]]> 
 	</select>

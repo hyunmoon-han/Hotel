@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 </head>
 <style>
 body,html{
@@ -27,17 +28,28 @@ body,html{
     padding-top: 40px; padding-bottom: 40px;
     opacity: 0.7;
 }
-
-	
+#uu{
+	position: relative;
+}
+#uu i{
+	position: absolute;
+	left: 266px;
+	top: 5px;
+}
+#uu .lo{
+	position: absolute;
+	left: 267px;
+	top: 48px;
+}	
 
 </style>
 <body>
 <div id="content">
 <h1>LOGIN</h1>
 <form action="/Hotel/check_user" method="post">
-	ID:&nbsp;&nbsp; <input id="userid" type="text" name=userid><br><br>
-	PW:&nbsp;&nbsp;	<input id="userpw" type="password" name=userpw><br><br>
-	
+	<div id="uu">ID:&nbsp;&nbsp; <input id="userid" type="text" name=userid><i class="fas fa-user-ninja"></i><br><br>
+		PW:&nbsp;&nbsp;<input id="userpw" type="password" name=userpw ><i class="fas fa-lock lo"></i>
+	</div><br><br>
 </form>
 	<input type="button" value="확인" id="go">
 	<input type="button" value="회원가입" id="ss">
